@@ -5,6 +5,21 @@ app_description = "addons for lawfirm"
 app_email = "joeyxjoey123@gmail.com"
 app_license = "mit"
 
+fixtures = [
+	{
+		"doctype": "Custom Field",
+		"filters": [
+			[
+				"name",
+				"in",
+				[
+					"Case History-decision"
+				]
+			]
+		]
+	}
+]
+
 # Apps
 # ------------------
 

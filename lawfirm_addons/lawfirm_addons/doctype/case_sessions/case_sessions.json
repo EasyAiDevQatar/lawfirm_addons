@@ -1,0 +1,60 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-27 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "business_on_date",
+  "purpose",
+  "business_details",
+  "next_date",
+  "decision"
+ ],
+ "fields": [
+  {
+   "fieldname": "business_on_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Business on Date"
+  },
+  {
+   "fieldname": "purpose",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Purpose"
+  },
+  {
+   "fieldname": "business_details",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Business Details"
+  },
+  {
+   "fieldname": "next_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Next Date"
+  },
+  {
+   "fieldname": "decision",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Decision"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-01-27 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Lawfirm Addons",
+ "name": "Case Sessions",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
+
