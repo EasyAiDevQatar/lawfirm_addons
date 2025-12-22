@@ -13,6 +13,8 @@ fixtures = [
 				"name",
 				"in",
 				[
+					"Case-case_sessions_section",
+					"Case-case_sessions",
 					"Case History-decision"
 				]
 			]
