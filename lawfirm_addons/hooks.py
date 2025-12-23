@@ -61,7 +61,7 @@ fixtures = [
 
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+doctype_list_js = {"Case" : "public/js/doctype/case_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -157,6 +157,9 @@ fixtures = [
 doc_events = {
 	"Customer": {
 		"validate": "lawfirm_addons.events.customer.validate"
+    },
+	"Lead": {
+		"validate": "lawfirm_addons.events.lead.validate"
     }
 }
 
