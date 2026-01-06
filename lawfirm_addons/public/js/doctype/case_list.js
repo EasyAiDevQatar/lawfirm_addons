@@ -2,7 +2,10 @@
 // For license information, please see license.txt
 
 frappe.listview_settings['Case'] = {
+	
 	refresh: function(listview) {
+			// Add "View Attachments" button
+	
 		// Add button to filter by next_date from Case Sessions
 		listview.page.add_inner_button(__("Filter by Next Date"), function() {
 			var dialog = new frappe.ui.Dialog({
