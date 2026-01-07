@@ -124,13 +124,15 @@ frappe.ui.form.Attachments = class Attachments {
 
 		// For Case doctype, redirect to document-reader page instead of opening file directly
 		let attachment_href = file_url;
-		if (this.frm.doctype === "Case" && this.frm.docname) {
+		let is_case_doctype = this.frm.doctype === "Case" && this.frm.docname;
+		if (is_case_doctype) {
 			attachment_href = `/document-reader?case=${encodeURIComponent(this.frm.docname)}`;
 		}
 
 		let file_label = `
 			<a href="${attachment_href}" target="_blank" title="${frappe.utils.escape_html(file_name)}"
-				class="ellipsis" style="max-width: calc(100% - 43px);"
+				class="ellipsis attachment-link" style="max-width: calc(100% - 43px);"
+				data-file-id="${fileid}"
 			>
 				<span>${file_name}</span>
 			</a>`;
@@ -157,9 +159,20 @@ frappe.ui.form.Attachments = class Attachments {
 				${frappe.utils.icon(attachment.is_private ? "es-line-lock" : "es-line-unlock", "sm ml-0")}
 			</a>`;
 
-		$(`<li class="attachment-row">`)
+		let $attachment_row = $(`<li class="attachment-row">`)
 			.append(frappe.get_data_pill(file_label, fileid, remove_action, icon))
 			.insertAfter(this.add_attachment_wrapper);
+
+		// Add click handler for Case doctype to ensure redirect works
+		if (is_case_doctype) {
+			$attachment_row.find('.attachment-link').on('click', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				const case_url = `/document-reader?case=${encodeURIComponent(me.frm.docname)}`;
+				window.open(case_url, '_blank');
+				return false;
+			});
+		}
 	}
 
 	can_delete_attachment() {
