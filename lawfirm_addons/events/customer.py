@@ -11,9 +11,9 @@ def validate(doc, method=None):
 	customer_name_normalized = doc.customer_name.strip().lower()
 	customer_name_parts = customer_name_normalized.split()
 	
-	# التحقق من أن الاسم ثنائي أو ثلاثي
-	if len(customer_name_parts) < 2 or len(customer_name_parts) > 3:
-		# إذا كان الاسم أقل من ثنائي أو أكثر من ثلاثي، لا نتحقق من القائمة المحظورة
+	# نتعامل مع الأسماء الثنائية وما فوق
+	if len(customer_name_parts) < 2:
+		# إذا كان الاسم أقل من ثنائي، لا نتحقق من القائمة المحظورة
 		return
 	
 	# البحث في القائمة المحظورة باستخدام مقارنة غير حساسة لحالة الأحرف
@@ -28,8 +28,8 @@ def validate(doc, method=None):
 		blacklisted_name_normalized = blacklisted_name.lower()
 		blacklisted_parts = blacklisted_name_normalized.split()
 		
-		# التحقق من أن الاسم المحظور ثنائي أو ثلاثي أيضاً
-		if len(blacklisted_parts) >= 2 and len(blacklisted_parts) <= 3:
+		# التحقق من أن الاسم المحظور ثنائي على الأقل
+		if len(blacklisted_parts) >= 2:
 			# التحقق من التطابق: إذا تطابق الاسمان تماماً أو تطابقت أول جزئين
 			is_match = False
 			
@@ -37,11 +37,9 @@ def validate(doc, method=None):
 			if len(blacklisted_parts) == len(customer_name_parts):
 				if blacklisted_name_normalized == customer_name_normalized:
 					is_match = True
-			# إذا كان أحدهما ثنائي والآخر ثلاثي، تحقق من تطابق أول جزئين
-			elif len(blacklisted_parts) == 2 and len(customer_name_parts) == 3:
-				if blacklisted_parts[0] == customer_name_parts[0] and blacklisted_parts[1] == customer_name_parts[1]:
-					is_match = True
-			elif len(blacklisted_parts) == 3 and len(customer_name_parts) == 2:
+			# حافظ على سلوك الاسم الثنائي: إذا كان أحد الاسمين ثنائي،
+			# يكفي تطابق أول جزئين
+			elif len(blacklisted_parts) == 2 or len(customer_name_parts) == 2:
 				if blacklisted_parts[0] == customer_name_parts[0] and blacklisted_parts[1] == customer_name_parts[1]:
 					is_match = True
 			
