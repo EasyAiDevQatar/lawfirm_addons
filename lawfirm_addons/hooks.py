@@ -7,15 +7,14 @@ app_license = "mit"
 
 fixtures = [
 	{
-		"doctype": "Custom Field",
+		"doctype": "Print Format",
 		"filters": [
 			[
 				"name",
 				"in",
 				[
-					"Case-case_sessions_section",
-					"Case-case_sessions",
-					"Case History-decision"
+					"Case Sessions Print",
+					"Case History Print"
 				]
 			]
 		]
@@ -166,23 +165,11 @@ doc_events = {
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"lawfirm_addons.tasks.all"
-# 	],
-# 	"daily": [
-# 		"lawfirm_addons.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"lawfirm_addons.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"lawfirm_addons.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"lawfirm_addons.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	"daily": [
+		"lawfirm_addons.tasks.migrate_due_case_sessions_to_history"
+	]
+}
 
 # Testing
 # -------

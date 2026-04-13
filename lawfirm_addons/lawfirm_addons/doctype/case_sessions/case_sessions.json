@@ -6,42 +6,108 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "registration_no",
   "business_on_date",
-  "purpose",
-  "business_details",
-  "next_date",
-  "decision"
+  "court",
+  "chamber",
+  "case_number",
+  "case_subject",
+  "opponent",
+  "agent",
+  "opponent_capacity",
+  "facts_summary",
+  "defense_summary",
+  "attachments_note",
+  "previous_decision",
+  "decision",
+  "next_date"
  ],
  "fields": [
+  {
+   "fieldname": "registration_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Registration No"
+  },
   {
    "fieldname": "business_on_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Business on Date"
+   "label": "Session Date"
   },
   {
-   "fieldname": "purpose",
+   "fieldname": "court",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Purpose"
+   "label": "Court"
   },
   {
-   "fieldname": "business_details",
-   "fieldtype": "Text",
+   "fieldname": "chamber",
+   "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Business Details"
+   "label": "Chamber"
+  },
+  {
+   "fieldname": "case_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Case Number"
+  },
+  {
+   "fieldname": "case_subject",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Case Subject"
+  },
+  {
+   "fieldname": "opponent",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Opponent"
+  },
+  {
+   "fieldname": "agent",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Agent"
+  },
+  {
+   "fieldname": "opponent_capacity",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Opponent Capacity"
+  },
+  {
+   "fieldname": "facts_summary",
+   "fieldtype": "Small Text",
+   "label": "Facts Summary"
+  },
+  {
+   "fieldname": "defense_summary",
+   "fieldtype": "Small Text",
+   "label": "Defense Summary"
+  },
+  {
+   "fieldname": "attachments_note",
+   "fieldtype": "Small Text",
+   "label": "Attachments Note"
+  },
+  {
+   "fieldname": "previous_decision",
+   "fieldtype": "Small Text",
+   "label": "Previous Decision"
   },
   {
    "fieldname": "next_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Next Date"
+   "label": "Next Session Date"
   },
   {
    "fieldname": "decision",
    "fieldtype": "Text",
    "in_list_view": 1,
-   "label": "Decision"
+   "label": "Session Decision"
   }
  ],
  "index_web_pages_for_search": 1,
