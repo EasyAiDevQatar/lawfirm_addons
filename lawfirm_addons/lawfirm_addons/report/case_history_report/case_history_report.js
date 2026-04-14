@@ -1,19 +1,24 @@
 frappe.query_reports["Case History Report"] = {
-	"filters": [
+	filters: [
 		{
-			"fieldname": "from_date",
-			"label": __("From Date"),
-			"fieldtype": "Date"
+			fieldname: "customer_name",
+			label: __("Customer Name"),
+			fieldtype: "Data",
 		},
 		{
-			"fieldname": "to_date",
-			"label": __("To Date"),
-			"fieldtype": "Date"
+			fieldname: "case_number",
+			label: __("Case Number"),
+			fieldtype: "Data",
 		},
 		{
-			"fieldname": "court",
-			"label": __("Court"),
-			"fieldtype": "Data"
-		}
-	]
+			fieldname: "from_date",
+			label: __("From Date (Session Date)"),
+			fieldtype: "Date",
+		},
+		{
+			fieldname: "to_date",
+			label: __("To Date (Session Date)"),
+			fieldtype: "Date",
+		},
+	],
 };

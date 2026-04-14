@@ -8,15 +8,19 @@
  "field_order": [
   "case_date",
   "registration_no",
+  "court",
   "litigation_degree",
   "case_number",
-  "lawsuit_date",
-  "court",
   "chamber",
+  "case_subject",
+  "client",
+  "client_capacity",
   "opponent",
   "opponent_capacity",
-  "business_details",
+  "previous_decision",
   "decision",
+  "lawsuit_date",
+  "business_details",
   "facts_summary",
   "defense_summary"
  ],
@@ -34,6 +38,12 @@
    "label": "Registration No"
   },
   {
+   "fieldname": "court",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Court"
+  },
+  {
    "fieldname": "litigation_degree",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -46,22 +56,28 @@
    "label": "Case Number"
   },
   {
-   "fieldname": "lawsuit_date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "Lawsuit Date"
-  },
-  {
-   "fieldname": "court",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Court"
-  },
-  {
    "fieldname": "chamber",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Chamber"
+  },
+  {
+   "fieldname": "case_subject",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Case Subject"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Client"
+  },
+  {
+   "fieldname": "client_capacity",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Client Capacity"
   },
   {
    "fieldname": "opponent",
@@ -76,15 +92,27 @@
    "label": "Opponent Capacity"
   },
   {
-   "fieldname": "business_details",
-   "fieldtype": "Text",
-   "label": "Business Details"
+   "fieldname": "previous_decision",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Previous Decision"
   },
   {
    "fieldname": "decision",
    "fieldtype": "Text",
    "in_list_view": 1,
    "label": "Decision"
+  },
+  {
+   "fieldname": "lawsuit_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Lawsuit Date"
+  },
+  {
+   "fieldname": "business_details",
+   "fieldtype": "Text",
+   "label": "Business Details"
   },
   {
    "fieldname": "facts_summary",
@@ -100,7 +128,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-04-13 12:00:00.000000",
+ "modified": "2026-04-15 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Lawfirm Addons",
  "name": "Case History",

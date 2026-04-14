@@ -10,7 +10,7 @@
   "font": "Default",
   "idx": 0,
   "line_breaks": 0,
-  "modified": "2026-04-13 12:00:00.000000",
+  "modified": "2026-04-15 12:00:00.000000",
   "modified_by": "Administrator",
   "module": "Lawfirm Addons",
   "name": "Case Sessions Print",
@@ -20,7 +20,7 @@
   "raw_printing": 0,
   "show_section_headings": 0,
   "standard": "No",
-  "html": "<h2 style=\"text-align:center;\">أجندة الجلسات</h2><table class=\"table table-bordered\"><thead><tr><th>رقم القيد</th><th>تاريخ الجلسة</th><th>المحكمة</th><th>الدائرة</th><th>رقم القضية</th><th>موضوع القضية</th><th>الخصم</th><th>الوكيل</th><th>صفة الخصم</th><th>القرار السابق</th><th>قرار الجلسة</th><th>الجلسة القادمة</th></tr></thead><tbody>{% for row in doc.case_sessions %}<tr><td>{{ row.registration_no or \"\" }}</td><td>{{ row.business_on_date or \"\" }}</td><td>{{ row.court or \"\" }}</td><td>{{ row.chamber or \"\" }}</td><td>{{ row.case_number or \"\" }}</td><td>{{ row.case_subject or \"\" }}</td><td>{{ row.opponent or \"\" }}</td><td>{{ row.agent or \"\" }}</td><td>{{ row.opponent_capacity or \"\" }}</td><td>{{ row.previous_decision or \"\" }}</td><td>{{ row.decision or \"\" }}</td><td>{{ row.next_date or \"\" }}</td></tr>{% endfor %}</tbody></table>"
+  "html": "<h2 style=\"text-align:center;\">أجندة الجلسات</h2><table class=\"table table-bordered\"><thead><tr><th>رقم الملف</th><th>تاريخ الجلسة</th><th>المحكمة</th><th>الدرجة</th><th>رقم القضية</th><th>الدائرة</th><th>موضوع القضية</th><th>الموكل</th><th>صفته</th><th>الخصم</th><th>صفته</th><th>القرار السابق</th><th>قرار الجلسة</th><th>تاريخ الجلسة القادمة</th></tr></thead><tbody>{% for row in doc.case_sessions %}<tr><td>{{ row.registration_no or \"\" }}</td><td>{{ row.business_on_date or \"\" }}</td><td>{{ row.court or \"\" }}</td><td>{{ row.litigation_degree or \"\" }}</td><td>{{ row.case_number or \"\" }}</td><td>{{ row.chamber or \"\" }}</td><td>{{ row.case_subject or \"\" }}</td><td>{{ row.client or \"\" }}</td><td>{{ row.client_capacity or \"\" }}</td><td>{{ row.opponent or \"\" }}</td><td>{{ row.opponent_capacity or \"\" }}</td><td>{{ row.previous_decision or \"\" }}</td><td>{{ row.decision or \"\" }}</td><td>{{ row.next_date or \"\" }}</td></tr>{% endfor %}</tbody></table>"
  },
  {
   "creation": "2026-04-13 12:00:00.000000",
@@ -33,7 +33,7 @@
   "font": "Default",
   "idx": 0,
   "line_breaks": 0,
-  "modified": "2026-04-13 12:00:00.000000",
+  "modified": "2026-04-15 12:00:00.000000",
   "modified_by": "Administrator",
   "module": "Lawfirm Addons",
   "name": "Case History Print",
@@ -43,6 +43,6 @@
   "raw_printing": 0,
   "show_section_headings": 0,
   "standard": "No",
-  "html": "<h2 style=\"text-align:center;\">بيان بموقف القضية</h2><table class=\"table table-bordered\"><thead><tr><th>رقم القيد</th><th>درجة التقاضي</th><th>رقم القضية</th><th>تاريخ الدعوى</th><th>المحكمة</th><th>الدائرة</th><th>الخصم</th><th>صفة الخصم</th><th>تاريخ الجلسة</th><th>القرار</th><th>ملخص الوقائع</th><th>ملخص الدفاع</th></tr></thead><tbody>{% for row in doc.case_history %}<tr><td>{{ row.registration_no or \"\" }}</td><td>{{ row.litigation_degree or \"\" }}</td><td>{{ row.case_number or \"\" }}</td><td>{{ row.lawsuit_date or \"\" }}</td><td>{{ row.court or \"\" }}</td><td>{{ row.chamber or \"\" }}</td><td>{{ row.opponent or \"\" }}</td><td>{{ row.opponent_capacity or \"\" }}</td><td>{{ row.case_date or \"\" }}</td><td>{{ row.decision or \"\" }}</td><td>{{ row.facts_summary or \"\" }}</td><td>{{ row.defense_summary or \"\" }}</td></tr>{% endfor %}</tbody></table>"
+  "html": "<h2 style=\"text-align:center;\">بيان بموقف القضية</h2><table class=\"table table-bordered\"><thead><tr><th>رقم الملف</th><th>تاريخ الجلسة</th><th>المحكمة</th><th>الدرجة</th><th>رقم القضية</th><th>الدائرة</th><th>موضوع القضية</th><th>الموكل</th><th>صفته</th><th>الخصم</th><th>صفته</th><th>القرار السابق</th><th>قرار الجلسة</th><th>تاريخ الدعوى</th><th>ملخص الوقائع</th><th>ملخص الدفاع</th></tr></thead><tbody>{% for row in doc.case_history %}<tr><td>{{ row.registration_no or \"\" }}</td><td>{{ row.case_date or \"\" }}</td><td>{{ row.court or \"\" }}</td><td>{{ row.litigation_degree or \"\" }}</td><td>{{ row.case_number or \"\" }}</td><td>{{ row.chamber or \"\" }}</td><td>{{ row.case_subject or \"\" }}</td><td>{{ row.client or \"\" }}</td><td>{{ row.client_capacity or \"\" }}</td><td>{{ row.opponent or \"\" }}</td><td>{{ row.opponent_capacity or \"\" }}</td><td>{{ row.previous_decision or \"\" }}</td><td>{{ row.decision or \"\" }}</td><td>{{ row.lawsuit_date or \"\" }}</td><td>{{ row.facts_summary or \"\" }}</td><td>{{ row.defense_summary or \"\" }}</td></tr>{% endfor %}</tbody></table>"
  }
 ]

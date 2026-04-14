@@ -20,7 +20,7 @@ def _build_history_signature(row) -> tuple:
 
 
 def migrate_due_case_sessions_to_history() -> None:
-	"""Move due session rows into case history rows."""
+	"""Move session rows whose session date (business_on_date) has passed into case history."""
 	session_fieldname = _get_case_table_fieldname("Case Sessions")
 	history_fieldname = _get_case_table_fieldname("Case History")
 
@@ -44,10 +44,10 @@ def migrate_due_case_sessions_to_history() -> None:
 		changed = False
 
 		for row in session_rows:
-			if not row.get("next_date"):
+			if not row.get("business_on_date"):
 				continue
 
-			if getdate(row.next_date) > today:
+			if getdate(row.business_on_date) > today:
 				continue
 
 			signature = (
@@ -66,12 +66,17 @@ def migrate_due_case_sessions_to_history() -> None:
 				{
 					"registration_no": row.get("registration_no"),
 					"case_date": row.get("business_on_date"),
+					"litigation_degree": row.get("litigation_degree"),
 					"case_number": row.get("case_number"),
 					"lawsuit_date": row.get("business_on_date"),
 					"court": row.get("court"),
 					"chamber": row.get("chamber"),
+					"case_subject": row.get("case_subject"),
+					"client": row.get("client"),
+					"client_capacity": row.get("client_capacity"),
 					"opponent": row.get("opponent"),
 					"opponent_capacity": row.get("opponent_capacity"),
+					"previous_decision": row.get("previous_decision"),
 					"decision": row.get("decision"),
 					"facts_summary": row.get("facts_summary"),
 					"defense_summary": row.get("defense_summary"),
