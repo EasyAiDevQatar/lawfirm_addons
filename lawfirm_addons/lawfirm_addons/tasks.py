@@ -20,7 +20,7 @@ def _build_history_signature(row) -> tuple:
 
 
 def migrate_due_case_sessions_to_history() -> None:
-	"""Move session rows whose session date (business_on_date) has passed into case history."""
+	"""Move session rows whose next session date is today into case history."""
 	session_fieldname = _get_case_table_fieldname("Case Sessions")
 	history_fieldname = _get_case_table_fieldname("Case History")
 
@@ -44,10 +44,10 @@ def migrate_due_case_sessions_to_history() -> None:
 		changed = False
 
 		for row in session_rows:
-			if not row.get("business_on_date"):
+			if not row.get("next_date"):
 				continue
 
-			if getdate(row.business_on_date) > today:
+			if getdate(row.next_date) != today:
 				continue
 
 			signature = (
@@ -78,6 +78,7 @@ def migrate_due_case_sessions_to_history() -> None:
 					"opponent_capacity": row.get("opponent_capacity"),
 					"previous_decision": row.get("previous_decision"),
 					"decision": row.get("decision"),
+					"business_details": row.get("attachments_note"),
 					"facts_summary": row.get("facts_summary"),
 					"defense_summary": row.get("defense_summary"),
 				},

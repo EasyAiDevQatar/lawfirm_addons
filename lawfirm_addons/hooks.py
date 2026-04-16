@@ -159,17 +159,21 @@ doc_events = {
     },
 	"Lead": {
 		"validate": "lawfirm_addons.events.lead.validate"
-    }
+    },
+	"Case": {
+		"before_save": "lawfirm_addons.events.case.move_due_sessions_to_history",
+		"on_update": "lawfirm_addons.events.case.move_due_sessions_to_history"
+	},
 }
 
 # Scheduled Tasks
 # ---------------
 
-scheduler_events = {
-	"daily": [
-		"lawfirm_addons.tasks.migrate_due_case_sessions_to_history"
-	]
-}
+# scheduler_events = {
+# 	"daily": [
+# 		"lawfirm_addons.tasks.migrate_due_case_sessions_to_history"
+# 	]
+# }
 
 # Testing
 # -------
