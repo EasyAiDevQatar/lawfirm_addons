@@ -7,6 +7,12 @@ app_license = "mit"
 
 fixtures = [
 	{
+		"doctype": "Property Setter",
+		"filters": [
+			["name", "in", ["Case-case_history-options"]],
+		],
+	},
+	{
 		"doctype": "Print Format",
 		"filters": [
 			[
@@ -161,8 +167,7 @@ doc_events = {
 		"validate": "lawfirm_addons.events.lead.validate"
     },
 	"Case": {
-		"before_save": "lawfirm_addons.events.case.move_due_sessions_to_history",
-		"on_update": "lawfirm_addons.events.case.move_due_sessions_to_history"
+		"validate": "lawfirm_addons.events.case.sync_case_history_from_sessions",
 	},
 }
 

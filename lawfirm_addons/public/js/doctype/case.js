@@ -29,6 +29,16 @@ frappe.ui.form.on('Case', {
 			});
 		}
 
+		// Case History uses the same child DocType as Case Sessions; hide next session date in this grid only.
+		function hideCaseHistoryNextSessionDate() {
+			const grid = frm.fields_dict.case_history && frm.fields_dict.case_history.grid;
+			if (grid) {
+				grid.update_docfield_property('next_date', 'hidden', 1);
+			}
+		}
+		hideCaseHistoryNextSessionDate();
+		setTimeout(hideCaseHistoryNextSessionDate, 200);
+
 		// Setup redirects immediately and after a delay (for dynamic attachments)
 		setupAttachmentRedirects();
 		setTimeout(setupAttachmentRedirects, 300);

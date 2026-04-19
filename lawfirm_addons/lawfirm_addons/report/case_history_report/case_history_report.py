@@ -3,15 +3,15 @@ import frappe
 
 def execute(filters=None):
 	filters = filters or {}
-	conditions = []
+	conditions = ["ch.parentfield = 'case_history'"]
 	values = {}
 
 	if filters.get("from_date"):
-		conditions.append("ch.case_date >= %(from_date)s")
+		conditions.append("ch.business_on_date >= %(from_date)s")
 		values["from_date"] = filters["from_date"]
 
 	if filters.get("to_date"):
-		conditions.append("ch.case_date <= %(to_date)s")
+		conditions.append("ch.business_on_date <= %(to_date)s")
 		values["to_date"] = filters["to_date"]
 
 	if filters.get("customer_name"):
@@ -39,10 +39,10 @@ def execute(filters=None):
 		{"label": "Opponent", "fieldname": "opponent", "fieldtype": "Data", "width": 130},
 		{"label": "Opponent Capacity", "fieldname": "opponent_capacity", "fieldtype": "Data", "width": 140},
 		{"label": "Previous Decision", "fieldname": "previous_decision", "fieldtype": "Small Text", "width": 150},
-		{"label": "Decision", "fieldname": "decision", "fieldtype": "Text", "width": 150},
-		{"label": "Lawsuit Date", "fieldname": "lawsuit_date", "fieldtype": "Date", "width": 110},
+		{"label": "Session Decision", "fieldname": "decision", "fieldtype": "Text", "width": 180},
 		{"label": "Facts Summary", "fieldname": "facts_summary", "fieldtype": "Small Text", "width": 150},
 		{"label": "Defense Summary", "fieldname": "defense_summary", "fieldtype": "Small Text", "width": 150},
+		{"label": "Attachments Note", "fieldname": "attachments_note", "fieldtype": "Small Text", "width": 150},
 	]
 
 	data = frappe.db.sql(
@@ -51,7 +51,7 @@ def execute(filters=None):
 			ch.parent AS case_name,
 			c.customer_name,
 			ch.registration_no,
-			ch.case_date AS session_date,
+			ch.business_on_date AS session_date,
 			ch.court,
 			ch.litigation_degree,
 			ch.chamber,
@@ -63,13 +63,13 @@ def execute(filters=None):
 			ch.opponent_capacity,
 			ch.previous_decision,
 			ch.decision,
-			ch.lawsuit_date,
 			ch.facts_summary,
-			ch.defense_summary
-		FROM `tabCase History` ch
+			ch.defense_summary,
+			ch.attachments_note
+		FROM `tabCase Sessions` ch
 		INNER JOIN `tabCase` c ON c.name = ch.parent
 		{where_clause}
-		ORDER BY ch.case_date DESC, ch.modified DESC
+		ORDER BY ch.business_on_date DESC, ch.modified DESC
 		""",
 		values,
 		as_dict=True,
