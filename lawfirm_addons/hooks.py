@@ -7,12 +7,6 @@ app_license = "mit"
 
 fixtures = [
 	{
-		"doctype": "Property Setter",
-		"filters": [
-			["name", "in", ["Case-case_history-options"]],
-		],
-	},
-	{
 		"doctype": "Print Format",
 		"filters": [
 			[
@@ -166,9 +160,6 @@ doc_events = {
 	"Lead": {
 		"validate": "lawfirm_addons.events.lead.validate"
     },
-	"Case": {
-		"validate": "lawfirm_addons.events.case.sync_case_history_from_sessions",
-	},
 }
 
 # Scheduled Tasks

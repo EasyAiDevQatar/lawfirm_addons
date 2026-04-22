@@ -1,13 +1,11 @@
 import frappe
 
-from lawfirm_addons.events.case import sync_case_history_from_sessions
-
 
 def migrate_case_history_from_sessions_bulk() -> None:
 	"""One-off maintenance: resync Case History from Case Sessions for all cases."""
 	for name in frappe.get_all("Case", pluck="name"):
 		doc = frappe.get_doc("Case", name)
-		sync_case_history_from_sessions(doc)
+		doc.sync_case_history_from_sessions()
 		doc.save(ignore_permissions=True)
 
 

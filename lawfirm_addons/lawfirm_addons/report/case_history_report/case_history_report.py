@@ -66,7 +66,7 @@ def execute(filters=None):
 			ch.facts_summary,
 			ch.defense_summary,
 			ch.attachments_note
-		FROM `tabCase Sessions` ch
+		FROM `tabCase History` ch
 		INNER JOIN `tabCase` c ON c.name = ch.parent
 		{where_clause}
 		ORDER BY ch.business_on_date DESC, ch.modified DESC
