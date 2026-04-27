@@ -144,6 +144,7 @@ frappe.ui.form.Attachments = class Attachments {
 					let target_attachment = me
 						.get_attachments()
 						.find((attachment) => attachment.name === target_id);
+					if (!target_attachment) return;
 					let to_be_removed = me
 						.get_attachments()
 						.filter(

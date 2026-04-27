@@ -1,5 +1,7 @@
 frappe.ui.form.on('Case', {
 	refresh: function(frm) {
+		if (frm.is_new() || !frm.doc.name) return;
+
 		frm.add_custom_button(__('View Attachments'), function() {
 			const url = `/document-reader?case=${encodeURIComponent(frm.doc.name)}`;
 			window.open(url, '_blank');
@@ -34,12 +36,13 @@ frappe.ui.form.on('Case', {
 		setTimeout(setupAttachmentRedirects, 300);
 		
 		// Also setup when attachments are refreshed
-		if (frm.attachments && typeof frm.attachments.refresh === 'function') {
+		if (frm.attachments && typeof frm.attachments.refresh === 'function' && !frm.__case_redirect_refresh_wrapped) {
 			const originalRefresh = frm.attachments.refresh;
 			frm.attachments.refresh = function() {
 				originalRefresh.apply(this, arguments);
 				setTimeout(setupAttachmentRedirects, 100);
 			};
+			frm.__case_redirect_refresh_wrapped = true;
 		}
 	}
 });
