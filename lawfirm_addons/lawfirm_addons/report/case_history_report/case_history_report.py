@@ -25,22 +25,22 @@ def execute(filters=None):
 	where_clause = f"WHERE {' AND '.join(conditions)}" if conditions else ""
 
 	columns = [
-		{"label": "File Number", "fieldname": "case_name", "fieldtype": "Link", "options": "Case", "width": 130},
-		{"label": "Customer Name", "fieldname": "customer_name", "fieldtype": "Data", "width": 150},
-		{"label": "Client Capacity", "fieldname": "client_capacity", "fieldtype": "Data", "width": 120},
-		{"label": "Opponent", "fieldname": "opponent", "fieldtype": "Data", "width": 125},
-		{"label": "Opponent Capacity", "fieldname": "opponent_capacity", "fieldtype": "Data", "width": 120},
-		{"label": "Session Date", "fieldname": "session_date", "fieldtype": "Date", "width": 110},
-		{"label": "Court", "fieldname": "court", "fieldtype": "Data", "width": 120},
-		{"label": "Litigation Degree", "fieldname": "litigation_degree", "fieldtype": "Data", "width": 130},
-		{"label": "Case Number", "fieldname": "case_number", "fieldtype": "Data", "width": 120},
-		{"label": "Chamber", "fieldname": "chamber", "fieldtype": "Data", "width": 80},
-		{"label": "Case Subject", "fieldname": "case_subject", "fieldtype": "Data", "width": 140},
-		{"label": "Previous Decision", "fieldname": "previous_decision", "fieldtype": "Small Text", "width": 150},
-		{"label": "Session Decision", "fieldname": "decision", "fieldtype": "Text", "width": 260},
-		{"label": "Facts Summary", "fieldname": "facts_summary", "fieldtype": "Small Text", "width": 150},
-		{"label": "Defense Summary", "fieldname": "defense_summary", "fieldtype": "Small Text", "width": 150},
-		{"label": "Attachments Note", "fieldname": "attachments_note", "fieldtype": "Small Text", "width": 150},
+		{"label": "رقم الملف", "fieldname": "case_name", "fieldtype": "Link", "options": "Case", "width": 130},
+		{"label": "اسم العميل", "fieldname": "customer_name", "fieldtype": "Data", "width": 150},
+		{"label": "صفته", "fieldname": "client_capacity", "fieldtype": "Data", "width": 120},
+		{"label": "الخصم", "fieldname": "opponent", "fieldtype": "Data", "width": 125},
+		{"label": "صفة الخصم", "fieldname": "opponent_capacity", "fieldtype": "Data", "width": 120},
+		{"label": "تاريخ الجلسة", "fieldname": "session_date", "fieldtype": "Date", "width": 110},
+		{"label": "المحكمة", "fieldname": "court", "fieldtype": "Data", "width": 120},
+		{"label": "درجة التقاضي", "fieldname": "litigation_degree", "fieldtype": "Data", "width": 130},
+		{"label": "رقم القضية", "fieldname": "case_number", "fieldtype": "Data", "width": 120},
+		{"label": "الدائرة", "fieldname": "chamber", "fieldtype": "Data", "width": 80},
+		{"label": "موضوع القضية", "fieldname": "case_subject", "fieldtype": "Data", "width": 140},
+		{"label": "القرار السابق", "fieldname": "previous_decision", "fieldtype": "Small Text", "width": 150},
+		{"label": "قرار الجلسة", "fieldname": "decision", "fieldtype": "Text", "width": 260},
+		{"label": "ملخص الوقائع", "fieldname": "facts_summary", "fieldtype": "Small Text", "width": 150},
+		{"label": "ملخص الدفاع", "fieldname": "defense_summary", "fieldtype": "Small Text", "width": 150},
+		{"label": "ملاحظات المرفقات", "fieldname": "attachments_note", "fieldtype": "Small Text", "width": 150},
 	]
 
 	data = frappe.db.sql(

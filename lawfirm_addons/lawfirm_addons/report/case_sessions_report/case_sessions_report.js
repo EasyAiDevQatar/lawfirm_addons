@@ -2,22 +2,22 @@ frappe.query_reports["Case Sessions Report"] = {
 	filters: [
 		{
 			fieldname: "customer_name",
-			label: __("Customer Name"),
+			label: __("اسم العميل"),
 			fieldtype: "Data",
 		},
 		{
 			fieldname: "case_number",
-			label: __("Case Number"),
+			label: __("رقم القضية"),
 			fieldtype: "Data",
 		},
 		{
 			fieldname: "from_date",
-			label: __("From Date (Next Session)"),
+			label: __("من تاريخ (الجلسة القادمة)"),
 			fieldtype: "Date",
 		},
 		{
 			fieldname: "to_date",
-			label: __("To Date (Next Session)"),
+			label: __("إلى تاريخ (الجلسة القادمة)"),
 			fieldtype: "Date",
 		},
 	],

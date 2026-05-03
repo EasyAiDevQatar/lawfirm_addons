@@ -25,20 +25,20 @@ def execute(filters=None):
 	where_clause = f"WHERE {' AND '.join(conditions)}" if conditions else ""
 
 	columns = [
-		{"label": "File Number", "fieldname": "file_number", "fieldtype": "Link", "options": "Case", "width": 130},
-		{"label": "Customer Name", "fieldname": "customer_name", "fieldtype": "Data", "width": 160},
-		{"label": "Client Capacity", "fieldname": "client_capacity", "fieldtype": "Data", "width": 110},
-		{"label": "Opponent", "fieldname": "opponent", "fieldtype": "Data", "width": 120},
-		{"label": "Opponent Capacity", "fieldname": "opponent_capacity", "fieldtype": "Data", "width": 120},
-		{"label": "Session Date", "fieldname": "session_date", "fieldtype": "Date", "width": 110},
-		{"label": "Court", "fieldname": "court", "fieldtype": "Data", "width": 120},
-		{"label": "Litigation Degree", "fieldname": "litigation_degree", "fieldtype": "Data", "width": 100},
-		{"label": "Case Number", "fieldname": "case_number", "fieldtype": "Data", "width": 110},
-		{"label": "Chamber", "fieldname": "chamber", "fieldtype": "Data", "width": 75},
-		{"label": "Case Subject", "fieldname": "case_subject", "fieldtype": "Data", "width": 130},
-		{"label": "Previous Decision", "fieldname": "previous_decision", "fieldtype": "Small Text", "width": 140},
-		{"label": "Session Decision", "fieldname": "decision", "fieldtype": "Text", "width": 240},
-		{"label": "Next Session Date", "fieldname": "next_date", "fieldtype": "Date", "width": 115},
+		{"label": "رقم الملف", "fieldname": "file_number", "fieldtype": "Link", "options": "Case", "width": 130},
+		{"label": "اسم العميل", "fieldname": "customer_name", "fieldtype": "Data", "width": 160},
+		{"label": "صفته", "fieldname": "client_capacity", "fieldtype": "Data", "width": 110},
+		{"label": "الخصم", "fieldname": "opponent", "fieldtype": "Data", "width": 120},
+		{"label": "صفة الخصم", "fieldname": "opponent_capacity", "fieldtype": "Data", "width": 120},
+		{"label": "تاريخ الجلسة", "fieldname": "session_date", "fieldtype": "Date", "width": 110},
+		{"label": "المحكمة", "fieldname": "court", "fieldtype": "Data", "width": 120},
+		{"label": "درجة التقاضي", "fieldname": "litigation_degree", "fieldtype": "Data", "width": 100},
+		{"label": "رقم القضية", "fieldname": "case_number", "fieldtype": "Data", "width": 110},
+		{"label": "الدائرة", "fieldname": "chamber", "fieldtype": "Data", "width": 75},
+		{"label": "موضوع القضية", "fieldname": "case_subject", "fieldtype": "Data", "width": 130},
+		{"label": "القرار السابق", "fieldname": "previous_decision", "fieldtype": "Small Text", "width": 140},
+		{"label": "قرار الجلسة", "fieldname": "decision", "fieldtype": "Text", "width": 240},
+		{"label": "تاريخ الجلسة القادمة", "fieldname": "next_date", "fieldtype": "Date", "width": 115},
 	]
 
 	data = frappe.db.sql(
