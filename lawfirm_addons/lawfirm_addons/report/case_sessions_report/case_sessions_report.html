@@ -1,0 +1,101 @@
+<style>
+.lfa-print { font-family: "Segoe UI", Tahoma, Arial, sans-serif; color: #1a202c; font-size: 11px; }
+.lfa-print.rtl { direction: rtl; text-align: right; }
+.lfa-letterhead { margin-bottom: 18px; padding-bottom: 14px; border-bottom: 3px solid #1a365d; }
+.lfa-letterhead img.lfa-logo { max-height: 72px; max-width: 220px; object-fit: contain; }
+.lfa-company-line { font-size: 18px; font-weight: 700; color: #1a365d; letter-spacing: 0.02em; }
+.lfa-company-sub { font-size: 11px; color: #4a5568; margin-top: 4px; line-height: 1.5; }
+.lfa-doc-title { font-size: 20px; font-weight: 700; color: #1a365d; margin: 12px 0 8px 0; text-align: center; }
+.lfa-meta-grid { display: table; width: 100%; border-collapse: collapse; margin: 12px 0; border: 1px solid #cbd5e0; }
+.lfa-meta-row { display: table-row; }
+.lfa-meta-cell { display: table-cell; padding: 6px 10px; border-bottom: 1px solid #e2e8f0; width: 50%; vertical-align: top; }
+.lfa-meta-cell b { color: #2d3748; }
+.lfa-meta-full { display: table-cell; padding: 6px 10px; border-bottom: 1px solid #e2e8f0; width: 100%; vertical-align: top; }
+.lfa-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 10px; }
+.lfa-table th { background: #1a365d; color: #fff; padding: 8px 6px; font-weight: 600; border: 1px solid #1a365d; }
+.lfa-table td { padding: 6px; border: 1px solid #cbd5e0; vertical-align: top; }
+.lfa-table tr:nth-child(even) td { background: #f7fafc; }
+.lfa-totals { margin-top: 14px; width: 100%; max-width: 380px; margin-inline-start: auto; border: 1px solid #cbd5e0; }
+.lfa-totals td { padding: 6px 10px; border-bottom: 1px solid #e2e8f0; }
+.lfa-totals tr:last-child td { font-weight: 700; font-size: 13px; background: #edf2f7; border-bottom: none; }
+.lfa-footer-note { margin-top: 20px; padding-top: 12px; border-top: 1px solid #cbd5e0; font-size: 9px; color: #718096; text-align: center; }
+.lfa-lh-embed { margin-bottom: 8px; }
+.lfa-letterfoot { margin-top: 20px; padding-top: 14px; border-top: 2px solid #1a365d; font-size: 10px; color: #4a5568; text-align: center; line-height: 1.5; }
+.lfa-pe-hero { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0; justify-content: center; }
+.lfa-pe-card { flex: 1; min-width: 200px; max-width: 320px; border-radius: 10px; padding: 14px 18px; border: 1px solid #bee3f8; background: linear-gradient(160deg, #ebf8ff 0%, #f0fff4 100%); text-align: center; }
+.lfa-pe-card .lfa-pe-lbl { font-size: 11px; color: #2c5282; font-weight: 600; }
+.lfa-pe-card .lfa-pe-amt { font-size: 24px; font-weight: 800; color: #1a365d; margin-top: 8px; letter-spacing: 0.02em; }
+.lfa-pe-badge { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 600; background: #1a365d; color: #fff; margin-bottom: 8px; }
+.lfa-pe-refs-title { font-size: 12px; font-weight: 700; color: #1a365d; margin: 18px 0 8px 0; }
+.lfa-file-ref { font-size: 14px; font-weight: 700; color: #1a365d; text-align: center; margin: 0 0 14px 0; padding: 8px; background: #f7fafc; border: 1px solid #cbd5e0; border-radius: 6px; }
+.lfa-section-h { font-size: 12px; font-weight: 700; color: #1a365d; margin: 16px 0 0 0; padding: 8px 10px; background: linear-gradient(90deg, #edf2f7 0%, #f7fafc 100%); border: 1px solid #e2e8f0; border-inline-start: 4px solid #1a365d; }
+.lfa-prayer { margin: 0 0 12px 0; padding: 12px; border: 1px solid #e2e8f0; background: #fafafa; font-size: 10px; line-height: 1.55; white-space: pre-wrap; }
+.lfa-thumb { max-height: 56px; max-width: 120px; object-fit: contain; vertical-align: middle; border: 1px solid #e2e8f0; border-radius: 4px; }
+.lfa-si-banner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 12px; padding: 12px; background: #f7fafc; border: 1px solid #cbd5e0; border-radius: 8px; }
+.lfa-si-items-note { font-size: 9px; color: #718096; margin-top: 6px; }
+.lfa-report-card { border: 1px solid #cbd5e0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 14px rgba(26,54,93,0.07); margin-top: 10px; background: #fff; }
+.lfa-report-meta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding: 10px 14px; background: linear-gradient(90deg, #edf2f7 0%, #f7fafc 100%); border-bottom: 2px solid #1a365d; font-size: 10px; color: #2d3748; }
+.lfa-report-meta b { color: #1a365d; }
+.lfa-table.lfa-report-table { margin-top: 0; font-size: 9.5px; }
+.lfa-table.lfa-report-table th { padding: 9px 7px; font-size: 9px; letter-spacing: 0.02em; }
+.lfa-table.lfa-report-table td { padding: 7px; }
+</style>
+<div class="lfa-print rtl">
+<div class="lfa-report-card">
+{% if title %}
+<div class="lfa-doc-title" style="margin-top:0;padding:14px 14px 8px 14px;background:#fff;">{{ title }}</div>
+{% endif %}
+<div class="lfa-report-meta">
+{% if report %}
+<span><b>{{ __("Report") }}:</b> {{ report.report_name }}</span>
+{% endif %}
+<span><b>{{ __("Printed on") }}</b> {{ frappe.datetime.now_datetime() }}</span>
+</div>
+{% if subtitle %}
+<div style="padding:10px 14px;font-size:10px;background:#fafafa;border-bottom:1px solid #e2e8f0;">{{ subtitle }}</div>
+{% endif %}
+<table class="lfa-table lfa-report-table">
+<thead>
+<tr>
+<th> # </th>
+{% for col in columns %}
+{% if col.name && col._id !== "_check" %}
+<th
+{% if col.minWidth %}
+style="min-width: {{ col.minWidth }}px"
+{% endif %}
+{% if frappe.model.is_numeric_field(col.fieldtype) %}
+class="text-right"
+{% endif %}
+>{{ __(col.name) }}</th>
+{% endif %}
+{% endfor %}
+</tr>
+</thead>
+<tbody>
+{% for row in data %}
+<tr>
+<td>{% if row.bold == 1 %}<strong>{% endif %}<span>{{ row._index + 1 }}</span>{% if row.bold == 1 %}</strong>{% endif %}</td>
+{% for col in columns %}
+{% if col.name && col._id !== "_check" %}
+{% var value = col.fieldname ? row[col.fieldname] : row[col.id] %}
+{% var longest_word = cstr(value).split(' ').reduce((longest, word) => word.length > longest.length ? word : longest, ''); %}
+<td {% if row.bold == 1 %} style="font-weight: bold" {% endif %} {% if longest_word.length > 45 %} class="overflow-wrap-anywhere" {% endif %}>
+<span {% if col._index == 0 %} style="padding-left: {%= cint(row.indent) * 2 %}em" {% endif %}>
+{% format_data = row.is_total_row && ["Currency", "Float"].includes(col.fieldtype) ? data[0] : row %}
+{% if (row.is_total_row && col._index == 0) { %}
+{{ __("Total") }}
+{% } else { %}
+{{ col.formatter ? col.formatter(row._index, col._index, value, col, format_data, true) : col.format ? col.format(value, row, col, format_data) : col.docfield ? frappe.format(value, col.docfield) : value }}
+{% } %}
+</span>
+</td>
+{% endif %}
+{% endfor %}
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<div class="lfa-footer-note" style="margin:0;padding:10px 14px;border-top:1px solid #e2e8f0;background:#f8fafc;">وثيقة مولدة من النظام</div>
+</div>
+</div>

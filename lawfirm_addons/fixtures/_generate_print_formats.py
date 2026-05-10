@@ -5,6 +5,8 @@ from pathlib import Path
 from typing import Optional
 
 HERE = Path(__file__).resolve().parent
+# Standard report folder: .../lawfirm_addons/lawfirm_addons/report/<report_name>/
+REPORT_PACKAGE = HERE.parent / "lawfirm_addons" / "report"
 
 BASE_CSS = r"""
 .lfa-print { font-family: "Segoe UI", Tahoma, Arial, sans-serif; color: #1a202c; font-size: 11px; }
@@ -308,6 +310,22 @@ class="text-right"
 )
 
 
+def report_grid_html() -> str:
+    """Same microtemplate as REPORT_GRID_JS; shipped as <report>.html (no Print Format / no extra API)."""
+    return REPORT_GRID_JS
+
+
+def write_report_print_templates() -> None:
+    """Write case_sessions_report.html & case_history_report.html next to each report (Frappe loads as html_format)."""
+    html = report_grid_html()
+    for name in ("case_sessions_report", "case_history_report"):
+        folder = REPORT_PACKAGE / name
+        folder.mkdir(parents=True, exist_ok=True)
+        path = folder / f"{name}.html"
+        path.write_text(html, encoding="utf-8")
+        print("Wrote", path)
+
+
 SI_BLOCK = rf"""<style>{BASE_CSS}</style>
 <div class="lfa-print rtl">
 <div class="lfa-letterhead">{LETTERHEAD}</div>
@@ -516,23 +534,6 @@ def main():
             ),
             doc_type="Case",
         ),
-        # doc_type required on some Frappe versions during fixture import even for print_format_for=Report.
-        pf_record(
-            "Case Sessions Report Print",
-            REPORT_GRID_JS,
-            doc_type="Case",
-            print_format_for="Report",
-            report="Case Sessions Report",
-            print_format_type="JS",
-        ),
-        pf_record(
-            "Case History Report Print",
-            REPORT_GRID_JS,
-            doc_type="Case",
-            print_format_for="Report",
-            report="Case History Report",
-            print_format_type="JS",
-        ),
         pf_record(
             "Sales Invoice - فاتورة رسوم دعوى",
             SI_BLOCK.replace("__SI_TITLE__", "فاتورة رسوم دعوى"),
@@ -557,6 +558,7 @@ def main():
     path = HERE / "print_format.json"
     path.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print("Wrote", path)
+    write_report_print_templates()
 
 
 if __name__ == "__main__":
