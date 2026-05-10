@@ -103,3 +103,20 @@ From Date (Session Date),من تاريخ (تاريخ الجلسة)
 To Date (Session Date),إلى تاريخ (تاريخ الجلسة)
 From Date,من تاريخ
 To Date,إلى تاريخ
+First Session Date,تاريخ الجلسة الأولى
+Serial,المسلسل
+Case Location,مكان الجلسة
+Attendance Location,مكان الحضور
+Requests,الطلبات
+Attachments,المرفقات
+Power of Attorney No,رقم التوكيل
+Power of Attorney Image,صورة رقم التوكيل
+Invoice Type,نوع الفاتورة
+Invoice Type Name,اسم نوع الفاتورة
+Visits,الزيارات
+Visit Date,تاريخ الزيارة
+Visit Summary,مخلص الزيارة
+Visit Duration,مدة الزيارة
+Attachment,مرفق
+Client,العميل
+Hearing tomorrow — Case {0},جلسة غداً — القضية {0}

@@ -25,31 +25,38 @@ def execute(filters=None):
 	where_clause = f"WHERE {' AND '.join(conditions)}" if conditions else ""
 
 	columns = [
-		{"label": "رقم الملف", "fieldname": "file_number", "fieldtype": "Link", "options": "Case", "width": 130},
+		{"label": "المسلسل", "fieldname": "serial_no", "fieldtype": "Data", "width": 100},
+		{"label": "ملف القضية", "fieldname": "file_number", "fieldtype": "Link", "options": "Case", "width": 130},
 		{"label": "اسم العميل", "fieldname": "customer_name", "fieldtype": "Data", "width": 160},
 		{"label": "صفته", "fieldname": "client_capacity", "fieldtype": "Data", "width": 110},
 		{"label": "الخصم", "fieldname": "opponent", "fieldtype": "Data", "width": 120},
 		{"label": "صفة الخصم", "fieldname": "opponent_capacity", "fieldtype": "Data", "width": 120},
-		{"label": "تاريخ الجلسة", "fieldname": "session_date", "fieldtype": "Date", "width": 110},
+		{"label": "تاريخ الجلسة الأولى", "fieldname": "session_date", "fieldtype": "Date", "width": 110},
+		{"label": "مكان الجلسة", "fieldname": "case_location", "fieldtype": "Data", "width": 120},
+		{"label": "مكان الحضور", "fieldname": "attendance_location", "fieldtype": "Data", "width": 120},
 		{"label": "المحكمة", "fieldname": "court", "fieldtype": "Data", "width": 120},
 		{"label": "درجة التقاضي", "fieldname": "litigation_degree", "fieldtype": "Data", "width": 100},
 		{"label": "رقم القضية", "fieldname": "case_number", "fieldtype": "Data", "width": 110},
 		{"label": "الدائرة", "fieldname": "chamber", "fieldtype": "Data", "width": 75},
 		{"label": "موضوع القضية", "fieldname": "case_subject", "fieldtype": "Data", "width": 130},
 		{"label": "القرار السابق", "fieldname": "previous_decision", "fieldtype": "Small Text", "width": 140},
-		{"label": "قرار الجلسة", "fieldname": "decision", "fieldtype": "Text", "width": 240},
+		{"label": "قرار الجلسة", "fieldname": "decision", "fieldtype": "Text", "width": 280},
+		{"label": "الطلبات", "fieldname": "defense_summary", "fieldtype": "Small Text", "width": 140},
 		{"label": "تاريخ الجلسة القادمة", "fieldname": "next_date", "fieldtype": "Date", "width": 115},
 	]
 
 	data = frappe.db.sql(
 		f"""
 		SELECT
+			cs.registration_no AS serial_no,
 			cs.parent AS file_number,
 			c.customer_name,
 			cs.client_capacity,
 			cs.opponent,
 			cs.opponent_capacity,
 			cs.business_on_date AS session_date,
+			cs.case_location,
+			cs.attendance_location,
 			cs.court,
 			cs.litigation_degree,
 			cs.case_number,
@@ -57,6 +64,7 @@ def execute(filters=None):
 			cs.case_subject,
 			cs.previous_decision,
 			cs.decision,
+			cs.defense_summary,
 			cs.next_date
 		FROM `tabCase Sessions` cs
 		INNER JOIN `tabCase` c ON c.name = cs.parent
