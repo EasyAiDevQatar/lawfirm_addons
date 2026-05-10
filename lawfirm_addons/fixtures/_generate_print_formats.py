@@ -41,6 +41,12 @@ BASE_CSS = r"""
 .lfa-thumb { max-height: 56px; max-width: 120px; object-fit: contain; vertical-align: middle; border: 1px solid #e2e8f0; border-radius: 4px; }
 .lfa-si-banner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 12px; padding: 12px; background: #f7fafc; border: 1px solid #cbd5e0; border-radius: 8px; }
 .lfa-si-items-note { font-size: 9px; color: #718096; margin-top: 6px; }
+.lfa-report-card { border: 1px solid #cbd5e0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 14px rgba(26,54,93,0.07); margin-top: 10px; background: #fff; }
+.lfa-report-meta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding: 10px 14px; background: linear-gradient(90deg, #edf2f7 0%, #f7fafc 100%); border-bottom: 2px solid #1a365d; font-size: 10px; color: #2d3748; }
+.lfa-report-meta b { color: #1a365d; }
+.lfa-table.lfa-report-table { margin-top: 0; font-size: 9.5px; }
+.lfa-table.lfa-report-table th { padding: 9px 7px; font-size: 9px; letter-spacing: 0.02em; }
+.lfa-table.lfa-report-table td { padding: 7px; }
 """
 
 # Header + optional Letter Head footer (HTML / image) from same Letter Head record as header
@@ -106,7 +112,7 @@ CASE_META = r"""
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>المدعي</b><br/>{{ doc.petitioner or "—" }}</div><div class="lfa-meta-cell"><b>المدعى عليه</b><br/>{{ doc.respondent or "—" }}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>صفة التمثيل</b><br/>{{ doc.representing or "—" }}</div><div class="lfa-meta-cell"><b>تفاصيل التمثيل</b><br/>{{ doc.representation_details or "—" }}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>اسم العميل</b><br/>{{ doc.customer_name or "—" }}</div><div class="lfa-meta-cell"><b>كود العميل</b><br/>{{ doc.customer or "—" }}</div></div>
-<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>هاتف</b><br/>{{ doc.contact_no or "—" }}</div><div class="lfa-meta-cell"><b>البريد</b><br/>{{ doc.contact_email or "—" }}</div></div>
+<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>رقم الهاتف</b><br/>{{ doc.contact_no or "—" }}</div><div class="lfa-meta-cell"><b>الإيميل</b><br/>{{ doc.contact_email or "—" }}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>الفرع</b><br/>{{ doc.branch or "—" }}</div><div class="lfa-meta-cell"><b>الشركة</b><br/>{{ doc.company or "—" }}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>تاريخ الجلسة القادمة</b><br/>{{ frappe.utils.formatdate(doc.next_hearing_date) if doc.next_hearing_date else "—" }}</div><div class="lfa-meta-cell"><b>موقع الملف</b><br/>{{ doc.file_location or "—" }}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>طبيعة الفصل</b><br/>{{ doc.nature_of_disposal or "—" }}</div><div class="lfa-meta-cell"><b>تاريخ الفصل</b><br/>{{ frappe.utils.formatdate(doc.date_of_disposal) if doc.date_of_disposal else "—" }}</div></div>
@@ -241,13 +247,20 @@ REPORT_GRID_JS = (
     + BASE_CSS
     + r"""</style>
 <div class="lfa-print rtl">
+<div class="lfa-report-card">
 {% if title %}
-<div class="lfa-doc-title" style="margin-top:0;">{{ title }}</div>
+<div class="lfa-doc-title" style="margin-top:0;padding:14px 14px 8px 14px;background:#fff;">{{ title }}</div>
 {% endif %}
+<div class="lfa-report-meta">
+{% if report %}
+<span><b>{{ __("Report") }}:</b> {{ report.report_name }}</span>
+{% endif %}
+<span><b>{{ __("Printed on") }}</b> {{ frappe.datetime.now_datetime() }}</span>
+</div>
 {% if subtitle %}
-<div style="margin-bottom:12px;font-size:11px;">{{ subtitle }}</div>
+<div style="padding:10px 14px;font-size:10px;background:#fafafa;border-bottom:1px solid #e2e8f0;">{{ subtitle }}</div>
 {% endif %}
-<table class="lfa-table">
+<table class="lfa-table lfa-report-table">
 <thead>
 <tr>
 <th> # </th>
@@ -289,7 +302,8 @@ class="text-right"
 {% endfor %}
 </tbody>
 </table>
-<div class="lfa-footer-note">{{ __("Printed on") }} {{ frappe.datetime.now_datetime() }}</div>
+<div class="lfa-footer-note" style="margin:0;padding:10px 14px;border-top:1px solid #e2e8f0;background:#f8fafc;">وثيقة مولدة من النظام</div>
+</div>
 </div>"""
 )
 
@@ -314,7 +328,8 @@ SI_BLOCK = rf"""<style>{BASE_CSS}</style>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>اسم العميل</b><br/>{{{{ doc.customer_name or doc.customer }}}}</div><div class="lfa-meta-cell"><b>كود العميل</b><br/>{{{{ doc.customer or "—" }}}}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>الشركة</b><br/>{{{{ doc.company }}}}</div><div class="lfa-meta-cell"><b>العملة</b><br/>{{{{ doc.currency or "—" }}}}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>عنوان الفوترة</b><br/>{{{{ doc.address_display or doc.customer_address or "—" }}}}</div><div class="lfa-meta-cell"><b>عنوان الشحن / التسليم</b><br/>{{{{ doc.shipping_address or doc.dispatch_address or "—" }}}}</div></div>
-<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>جهة الاتصال</b><br/>{{{{ doc.contact_person or doc.contact_display or "—" }}}}</div><div class="lfa-meta-cell"><b>شروط الدفع (قالب)</b><br/>{{{{ doc.payment_terms_template or "—" }}}}</div></div>
+<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>اسم جهة الاتصال</b><br/>{{{{ doc.contact_display or doc.contact_person or "—" }}}}</div><div class="lfa-meta-cell"><b>شروط الدفع</b><br/>{{{{ doc.payment_terms_template or "—" }}}}</div></div>
+<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>رقم الهاتف</b><br/>{{{{ doc.contact_mobile or (frappe.db.get_value("Customer", doc.customer, "mobile_no") if doc.customer else "") or (frappe.db.get_value("Customer", doc.customer, "phone_no") if doc.customer else "") or "—" }}}}</div><div class="lfa-meta-cell"><b>الإيميل</b><br/>{{{{ doc.contact_email or (frappe.db.get_value("Customer", doc.customer, "email_id") if doc.customer else "") or "—" }}}}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>قائمة الأسعار</b><br/>{{{{ doc.selling_price_list or "—" }}}}</div><div class="lfa-meta-cell"><b>مكان التوريد / الإقليم</b><br/>{{{{ doc.place_of_supply or doc.territory or "—" }}}}</div></div>
 {{% if doc.matter %}}<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>المادة Matter</b><br/>{{{{ doc.matter }}}}</div><div class="lfa-meta-cell"><b>المشروع / مركز التكلفة</b><br/>{{{{ doc.project or "—" }}}} — {{{{ doc.cost_center or "—" }}}}</div></div>{{% endif %}}
 {{% if doc.tax_id %}}<div class="lfa-meta-row"><div class="lfa-meta-full"><b>الرقم الضريبي للعميل</b><br/>{{{{ doc.tax_id }}}}</div></div>{{% endif %}}
@@ -407,21 +422,20 @@ PE_BLOCK = rf"""<style>{BASE_CSS}</style>
 <div class="lfa-meta-grid">
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>نوع الطرف</b><br/>{{{{ doc.party_type or "—" }}}}</div><div class="lfa-meta-cell"><b>الطرف</b><br/>{{{{ doc.party or "—" }}}}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>اسم الطرف</b><br/>{{{{ doc.party_name or "—" }}}}</div><div class="lfa-meta-cell"><b>حساب الطرف البنكي</b><br/>{{{{ doc.party_bank_account or "—" }}}}</div></div>
-<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>جهة الاتصال</b><br/>{{{{ doc.contact_person or "—" }}}}</div><div class="lfa-meta-cell"><b>بريد الاتصال</b><br/>{{{{ doc.contact_email or "—" }}}}</div></div>
-<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>حساب الدفع (Bank)</b><br/>{{{{ doc.bank_account or "—" }}}}</div><div class="lfa-meta-cell"><b>المشروع / مركز التكلفة</b><br/>{{{{ doc.project or "—" }}}} — {{{{ doc.cost_center or "—" }}}}</div></div>
-</div>
-<div class="lfa-section-h">المبالغ المخصصة والفروقات</div>
-<div class="lfa-meta-grid">
-<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>إجمالي المخصص</b><br/>{{{{ frappe.utils.fmt_money(doc.total_allocated_amount or 0, currency=doc.company_currency) }}}}</div><div class="lfa-meta-cell"><b>غير المخصص</b><br/>{{{{ frappe.utils.fmt_money(doc.unallocated_amount or 0, currency=doc.company_currency) }}}}</div></div>
-<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>فرق التحويل</b><br/>{{{{ frappe.utils.fmt_money(doc.difference_amount or 0, currency=doc.company_currency) }}}}</div><div class="lfa-meta-cell"><b>ضريبة مستقطعة</b><br/>{{{{ frappe.utils.fmt_money(doc.total_taxes_and_charges or 0, currency=doc.company_currency) }}}}</div></div>
+<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>رقم الهاتف</b><br/>{{% if doc.contact_person %}}{{{{ frappe.db.get_value("Contact", doc.contact_person, "mobile_no") or frappe.db.get_value("Contact", doc.contact_person, "phone") or "—" }}}}{{% elif doc.party_type == "Customer" and doc.party %}}{{{{ frappe.db.get_value("Customer", doc.party, "mobile_no") or frappe.db.get_value("Customer", doc.party, "phone_no") or "—" }}}}{{% elif doc.party_type == "Supplier" and doc.party %}}{{{{ frappe.db.get_value("Supplier", doc.party, "mobile_no") or "—" }}}}{{% else %}}—{{% endif %}}</div><div class="lfa-meta-cell"><b>الإيميل</b><br/>{{% if doc.contact_email %}}{{{{ doc.contact_email }}}}{{% elif doc.contact_person %}}{{{{ frappe.db.get_value("Contact", doc.contact_person, "email_id") or "—" }}}}{{% elif doc.party_type == "Customer" and doc.party %}}{{{{ frappe.db.get_value("Customer", doc.party, "email_id") or "—" }}}}{{% elif doc.party_type == "Supplier" and doc.party %}}{{{{ frappe.db.get_value("Supplier", doc.party, "email_id") or "—" }}}}{{% else %}}—{{% endif %}}</div></div>
+<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>حساب الدفع (البنك)</b><br/>{{{{ doc.bank_account or "—" }}}}</div><div class="lfa-meta-cell"><b>المشروع / مركز التكلفة</b><br/>{{{{ doc.project or "—" }}}} — {{{{ doc.cost_center or "—" }}}}</div></div>
 </div>
 {{% if doc.title %}}<div class="lfa-meta-grid" style="margin-top:8px;"><div class="lfa-meta-row"><div class="lfa-meta-full"><b>البيان / العنوان</b><br/>{{{{ doc.title }}}}</div></div></div>{{% endif %}}
 {{% if doc.custom_matter %}}<div class="lfa-meta-grid"><div class="lfa-meta-row"><div class="lfa-meta-full"><b>المادة Matter</b><br/>{{{{ doc.custom_matter }}}}</div></div></div>{{% endif %}}
 {{% if doc.remarks %}}<div class="lfa-meta-grid"><div class="lfa-meta-row"><div class="lfa-meta-full"><b>ملاحظات</b><br/>{{{{ doc.remarks }}}}</div></div></div>{{% endif %}}
 {{% if doc.references %}}
+<div class="lfa-section-h">ملخص المبلغ</div>
+<div class="lfa-meta-grid">
+<div class="lfa-meta-row"><div class="lfa-meta-full"><b>إجمالي المبلغ</b><br/>{{{{ frappe.utils.fmt_money(doc.total_allocated_amount or 0, currency=doc.company_currency) }}}}</div></div>
+</div>
 <div class="lfa-pe-refs-title">تخصيص على الفواتير والمستندات</div>
 <table class="lfa-table">
-<thead><tr><th style="width:36px;">#</th><th>نوع المستند</th><th>رقم المستند</th><th>المبلغ المخصص</th></tr></thead>
+<thead><tr><th style="width:36px;">#</th><th>نوع المستند</th><th>رقم المستند</th><th>المبلغ</th></tr></thead>
 <tbody>
 {{% for r in doc.references %}}
 <tr>
@@ -430,17 +444,6 @@ PE_BLOCK = rf"""<style>{BASE_CSS}</style>
 <td>{{{{ r.reference_name or "" }}}}</td>
 <td style="font-weight:600;">{{{{ frappe.utils.fmt_money(r.allocated_amount or 0, currency=doc.company_currency) }}}}</td>
 </tr>
-{{% endfor %}}
-</tbody>
-</table>
-{{% endif %}}
-{{% if doc.taxes %}}
-<div class="lfa-pe-refs-title">ضرائب السند</div>
-<table class="lfa-table">
-<thead><tr><th>#</th><th>الحساب / الوصف</th><th>المعدل</th><th>المبلغ</th></tr></thead>
-<tbody>
-{{% for t in doc.taxes %}}
-<tr><td>{{{{ loop.index }}}}</td><td>{{{{ t.account_head or t.description or "" }}}}</td><td>{{{{ t.rate or "" }}}}</td><td>{{{{ frappe.utils.fmt_money(t.tax_amount or 0, currency=doc.company_currency) }}}}</td></tr>
 {{% endfor %}}
 </tbody>
 </table>
