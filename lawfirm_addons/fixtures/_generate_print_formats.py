@@ -513,9 +513,11 @@ def main():
             ),
             doc_type="Case",
         ),
+        # doc_type required on some Frappe versions during fixture import even for print_format_for=Report.
         pf_record(
             "Case Sessions Report Print",
             REPORT_GRID_JS,
+            doc_type="Case",
             print_format_for="Report",
             report="Case Sessions Report",
             print_format_type="JS",
@@ -523,6 +525,7 @@ def main():
         pf_record(
             "Case History Report Print",
             REPORT_GRID_JS,
+            doc_type="Case",
             print_format_for="Report",
             report="Case History Report",
             print_format_type="JS",
