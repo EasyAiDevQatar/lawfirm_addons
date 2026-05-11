@@ -387,6 +387,12 @@ PE_BLOCK = rf"""<style>{BASE_CSS}</style>
 <div class="lfa-letterhead">{LETTERHEAD}</div>
 <div class="lfa-file-ref" style="margin-bottom:10px;">سند الدفع: {{{{ doc.name }}}}</div>
 <div class="lfa-doc-title" style="margin-bottom:4px;">__PE_TITLE__</div>
+<div class="lfa-pe-hero" style="margin-top:8px;">
+<div class="lfa-pe-card">
+<div class="lfa-pe-lbl">المبلغ المدفوع</div>
+<div class="lfa-pe-amt">{{{{ frappe.utils.fmt_money(doc.paid_amount or 0, currency=doc.paid_from_account_currency or doc.company_currency) }}}}</div>
+</div>
+</div>
 <div class="lfa-section-h">بيانات السند</div>
 <div class="lfa-meta-grid">
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>تاريخ الترحيل</b><br/>{{{{ frappe.utils.formatdate(doc.posting_date) }}}}</div><div class="lfa-meta-cell"><b>طريقة الدفع</b><br/>{{{{ doc.mode_of_payment or "—" }}}}</div></div>
@@ -397,7 +403,7 @@ PE_BLOCK = rf"""<style>{BASE_CSS}</style>
 </div>
 <div class="lfa-section-h">الطرف والحسابات</div>
 <div class="lfa-meta-grid">
-<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>العميل</b><br/>{{{{ doc.party_name or doc.party or "—" }}}}</div><div class="lfa-meta-cell"><b>رقم الجوال</b><br/>{{{{ doc.contact_mobile or "—" }}}}</div></div>
+<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>رقم الجوال</b><br/>{{{{ doc.contact_mobile or "—" }}}}</div><div class="lfa-meta-cell"><b>العميل</b><br/>{{{{ doc.party_name or doc.party or "—" }}}}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-full"><b>المشروع / مركز التكلفة</b><br/>{{{{ doc.project or "—" }}}} — {{{{ doc.cost_center or "—" }}}}</div></div>
 </div>
 {{% if doc.title %}}<div class="lfa-meta-grid" style="margin-top:8px;"><div class="lfa-meta-row"><div class="lfa-meta-full"><b>البيان / العنوان</b><br/>{{{{ doc.title }}}}</div></div></div>{{% endif %}}
