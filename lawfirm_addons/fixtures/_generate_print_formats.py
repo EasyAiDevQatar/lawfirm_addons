@@ -342,7 +342,7 @@ SI_BLOCK = rf"""<style>{BASE_CSS}</style>
 </div>
 <div class="lfa-section-h">العميل والفوترة</div>
 <div class="lfa-meta-grid">
-<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>اسم العميل</b><br/>{{{{ doc.customer_name or doc.customer }}}}</div><div class="lfa-meta-cell"><b>كود العميل</b><br/>{{{{ doc.customer or "—" }}}}</div></div>
+<div class="lfa-meta-row"><div class="lfa-meta-full"><b>اسم العميل</b><br/>{{{{ doc.customer_name or doc.customer }}}}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>الشركة</b><br/>{{{{ doc.company }}}}</div><div class="lfa-meta-cell"><b>العملة</b><br/>{{{{ doc.currency or "—" }}}}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>رقم الهاتف</b><br/>{{{{ doc.contact_mobile or "—" }}}}</div><div class="lfa-meta-cell"><b>الإيميل</b><br/>{{{{ doc.contact_email or "—" }}}}</div></div>
 {{% if doc.matter %}}<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>المادة Matter</b><br/>{{{{ doc.matter }}}}</div><div class="lfa-meta-cell"><b>المشروع / مركز التكلفة</b><br/>{{{{ doc.project or "—" }}}} — {{{{ doc.cost_center or "—" }}}}</div></div>{{% endif %}}
