@@ -403,7 +403,7 @@ PE_BLOCK = rf"""<style>{BASE_CSS}</style>
 </div>
 <div class="lfa-section-h">الطرف والحسابات</div>
 <div class="lfa-meta-grid">
-<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>رقم الجوال</b><br/>{{{{ doc.contact_mobile or "—" }}}}</div><div class="lfa-meta-cell"><b>العميل</b><br/>{{{{ doc.party_name or doc.party or "—" }}}}</div></div>
+<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>العميل</b><br/>{{{{ doc.party_name or doc.party or "—" }}}}</div><div class="lfa-meta-cell"><b>رقم الجوال</b><br/>{{{{ doc.contact_mobile or "—" }}}}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-full"><b>المشروع / مركز التكلفة</b><br/>{{{{ doc.project or "—" }}}} — {{{{ doc.cost_center or "—" }}}}</div></div>
 </div>
 {{% if doc.title %}}<div class="lfa-meta-grid" style="margin-top:8px;"><div class="lfa-meta-row"><div class="lfa-meta-full"><b>البيان / العنوان</b><br/>{{{{ doc.title }}}}</div></div></div>{{% endif %}}
