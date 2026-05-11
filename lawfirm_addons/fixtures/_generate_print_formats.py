@@ -391,14 +391,8 @@ PE_BLOCK = rf"""<style>{BASE_CSS}</style>
 <div class="lfa-doc-title" style="margin-bottom:4px;">__PE_TITLE__</div>
 <div class="lfa-pe-hero">
 <div class="lfa-pe-card">
-<div class="lfa-pe-lbl">المبلغ المدفوع</div>
-<div class="lfa-pe-amt">{{{{ frappe.utils.fmt_money(doc.paid_amount or 0, currency=doc.paid_from_account_currency or doc.company_currency) }}}}</div>
-{{% if doc.source_exchange_rate and doc.source_exchange_rate != 1 %}}<div style="font-size:9px;margin-top:4px;">سعر الصرف: {{{{ doc.source_exchange_rate }}}}</div>{{% endif %}}
-</div>
-<div class="lfa-pe-card">
-<div class="lfa-pe-lbl">المبلغ المستلم</div>
-<div class="lfa-pe-amt">{{{{ frappe.utils.fmt_money(doc.received_amount or 0, currency=doc.paid_to_account_currency or doc.company_currency) }}}}</div>
-{{% if doc.target_exchange_rate and doc.target_exchange_rate != 1 %}}<div style="font-size:9px;margin-top:4px;">سعر الصرف: {{{{ doc.target_exchange_rate }}}}</div>{{% endif %}}
+<div class="lfa-pe-lbl">المبلغ</div>
+<div class="lfa-pe-amt">{{{{ frappe.utils.fmt_money(doc.paid_amount or doc.received_amount or 0, currency=doc.company_currency) }}}}</div>
 </div>
 </div>
 <div class="lfa-section-h">بيانات السند</div>
