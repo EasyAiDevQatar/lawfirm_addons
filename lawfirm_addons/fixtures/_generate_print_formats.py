@@ -532,11 +532,14 @@ def pf_record(
         "html": html,
         "css": BASE_CSS.strip(),
     }
-    if doc_type:
-        row["doc_type"] = doc_type
     if report:
         row["report"] = report
         row["custom_format"] = 0
+        # Some Frappe versions still require doc_type during fixture import even for
+        # Report print formats. Both Case Sessions / History reports use ref_doctype Case.
+        row["doc_type"] = doc_type or "Case"
+    elif doc_type:
+        row["doc_type"] = doc_type
     return row
 
 
