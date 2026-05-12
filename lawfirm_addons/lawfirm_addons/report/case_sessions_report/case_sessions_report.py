@@ -28,7 +28,7 @@ def execute(filters=None):
 		{"label": "المسلسل", "fieldname": "serial_no", "fieldtype": "Data", "width": 90},
 		{"label": "ملف القضية", "fieldname": "file_number", "fieldtype": "Link", "options": "Case", "width": 120},
 		{"label": "اسم العميل (المادة)", "fieldname": "customer_name", "fieldtype": "Data", "width": 140},
-		{"label": "العميل بالصف", "fieldname": "row_client", "fieldtype": "Data", "width": 120},
+		{"label": "العميل", "fieldname": "row_client", "fieldtype": "Data", "width": 120},
 		{"label": "صفته", "fieldname": "client_capacity", "fieldtype": "Data", "width": 100},
 		{"label": "الخصم", "fieldname": "opponent", "fieldtype": "Data", "width": 110},
 		{"label": "صفة الخصم", "fieldname": "opponent_capacity", "fieldtype": "Data", "width": 100},
@@ -72,7 +72,14 @@ def execute(filters=None):
 			cs.decision,
 			cs.defense_summary,
 			cs.tokeel_no,
-			CASE WHEN cs.attachments IS NOT NULL AND cs.attachments != '' THEN '✓' ELSE '' END AS has_attach,
+			CASE
+				WHEN (cs.attachments IS NOT NULL AND cs.attachments != '')
+					OR EXISTS (
+						SELECT 1 FROM `tabCase Session Attachment` csa
+						WHERE csa.parent = cs.name AND csa.parenttype = 'Case Sessions'
+							AND csa.parentfield = 'session_attachments' AND IFNULL(csa.`file`, '') != ''
+					)
+				THEN '✓' ELSE '' END AS has_attach,
 			CASE WHEN cs.tokeel_image IS NOT NULL AND cs.tokeel_image != '' THEN '✓' ELSE '' END AS has_tokeel_img,
 			cs.agent,
 			cs.next_date

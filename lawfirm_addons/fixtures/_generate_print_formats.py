@@ -196,7 +196,7 @@ def case_html(title: str, loop: str, include_next_col: bool, table_heading: str 
       <th>موضوع القضية</th>
       <th>مكان الجلسة</th>
       <th>مكان الحضور</th>
-      <th>اسم العميل (الصف)</th>
+      <th>العميل</th>
       <th>صفة العميل</th>
       <th>الخصم</th>
       <th>صفة الخصم</th>
@@ -230,7 +230,7 @@ def case_html(title: str, loop: str, include_next_col: bool, table_heading: str 
       <td style="font-size:9px;">{{{{ row.decision or "" }}}}</td>
       <td style="font-size:9px;">{{{{ row.defense_summary or "" }}}}</td>
       <td>{{{{ row.tokeel_no or "" }}}}</td>
-      <td>{{% if row.attachments %}}✓{{% else %}}—{{% endif %}}</td>
+      <td>{{% if row.attachments or row.session_attachments %}}✓{{% else %}}—{{% endif %}}</td>
       <td>{{% if row.tokeel_image %}}✓{{% else %}}—{{% endif %}}</td>
       <td>{{{{ row.agent or "" }}}}</td>{next_td}
     </tr>
@@ -332,25 +332,46 @@ SI_BLOCK = rf"""<style>{BASE_CSS}</style>
 <div style="flex:1;min-width:200px;">
 <div class="lfa-doc-title" style="margin:0;text-align:right;">__SI_TITLE__</div>
 <div style="font-size:11px;margin-top:6px;color:#4a5568;">{{{{ doc.name }}}}</div>
+<div style="font-size:10px;margin-top:4px;color:#718096;">{{{{ doc.status or "" }}}}</div>
 </div>
-<div style="text-align:left;font-size:11px;min-width:200px;line-height:1.6;">
+<div style="text-align:left;font-size:11px;min-width:220px;line-height:1.65;">
 {{% if doc.custom_invoice_type %}}<div><b>نوع الفاتورة:</b> {{{{ doc.custom_invoice_type }}}}</div>{{% endif %}}
 <div><b>تاريخ الفاتورة:</b> {{{{ frappe.utils.formatdate(doc.posting_date) }}}}</div>
 {{% if doc.due_date %}}<div><b>الاستحقاق:</b> {{{{ frappe.utils.formatdate(doc.due_date) }}}}</div>{{% endif %}}
 {{% if doc.po_no %}}<div><b>أمر شراء:</b> {{{{ doc.po_no }}}}{{% if doc.po_date %}} — {{{{ frappe.utils.formatdate(doc.po_date) }}}}{{% endif %}}</div>{{% endif %}}
+{{% if doc.place_of_supply %}}<div><b>مكان التوريد:</b> {{{{ doc.place_of_supply }}}}</div>{{% endif %}}
+{{% if doc.territory %}}<div><b>الإقليم:</b> {{{{ doc.territory }}}}</div>{{% endif %}}
+{{% if doc.selling_price_list %}}<div><b>قائمة الأسعار:</b> {{{{ doc.selling_price_list }}}}</div>{{% endif %}}
+{{% if doc.payment_terms_template %}}<div><b>شروط السداد:</b> {{{{ doc.payment_terms_template }}}}</div>{{% endif %}}
 </div>
 </div>
 <div class="lfa-section-h">العميل والفوترة</div>
 <div class="lfa-meta-grid">
 <div class="lfa-meta-row"><div class="lfa-meta-full"><b>اسم العميل</b><br/>{{{{ doc.customer_name or doc.customer }}}}</div></div>
+<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>كود العميل</b><br/>{{{{ doc.customer or "—" }}}}</div><div class="lfa-meta-cell"><b>الرقم الضريبي</b><br/>{{{{ doc.tax_id or "—" }}}}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>الشركة</b><br/>{{{{ doc.company }}}}</div><div class="lfa-meta-cell"><b>العملة</b><br/>{{{{ doc.currency or "—" }}}}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>رقم الهاتف</b><br/>{{{{ doc.contact_mobile or "—" }}}}</div><div class="lfa-meta-cell"><b>الإيميل</b><br/>{{{{ doc.contact_email or "—" }}}}</div></div>
 {{% if doc.matter %}}<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>المادة Matter</b><br/>{{{{ doc.matter }}}}</div><div class="lfa-meta-cell"><b>المشروع / مركز التكلفة</b><br/>{{{{ doc.project or "—" }}}} — {{{{ doc.cost_center or "—" }}}}</div></div>{{% endif %}}
 </div>
+{{% if doc.address_display %}}
+<div class="lfa-section-h">عنوان الفوترة</div>
+<div class="lfa-meta-grid"><div class="lfa-meta-row"><div class="lfa-meta-full">{{{{ doc.address_display | safe }}}}</div></div></div>
+{{% endif %}}
+{{% if doc.shipping_address_name or doc.shipping_address %}}
+<div class="lfa-section-h">عنوان الشحن</div>
+<div class="lfa-meta-grid">
+<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>اسم عنوان الشحن</b><br/>{{{{ doc.shipping_address_name or "—" }}}}</div><div class="lfa-meta-cell"><b>المرجع</b><br/>{{{{ doc.shipping_address or "—" }}}}</div></div>
+</div>
+{{% endif %}}
+{{% if doc.company_address_display %}}
+<div class="lfa-section-h">عنوان الشركة على الفاتورة</div>
+<div class="lfa-meta-grid"><div class="lfa-meta-row"><div class="lfa-meta-full">{{{{ doc.company_address_display | safe }}}}</div></div></div>
+{{% endif %}}
+{{% if doc.taxes_and_charges %}}<div class="lfa-meta-grid" style="margin-top:6px;"><div class="lfa-meta-row"><div class="lfa-meta-full"><b>قالب الضريبة والرسوم:</b> {{{{ doc.taxes_and_charges }}}}</div></div></div>{{% endif %}}
 {{% if doc.terms %}}<div class="lfa-section-h">الشروط والأحكام</div><div class="lfa-prayer" style="white-space:normal;">{{{{ doc.terms | striptags }}}}</div>{{% endif %}}
 <div class="lfa-section-h">بنود الفاتورة</div>
 <table class="lfa-table">
-<thead><tr><th>#</th><th>الخدمة</th><th>اسم البند</th><th>الوصف</th><th>الكمية</th><th>الوحدة</th><th>سعر القائمة</th><th>الخصم</th><th>السعر</th><th>صافي</th><th>الإجمالي</th></tr></thead>
+<thead><tr><th>#</th><th>الخدمة</th><th>اسم البند</th><th>الوصف</th><th>الكمية</th><th>الوحدة</th><th>سعر القائمة</th><th>نسبة خصم</th><th>الخصم</th><th>السعر</th><th>صافي</th><th>الإجمالي</th></tr></thead>
 <tbody>
 {{% for it in doc.items %}}
 <tr>
@@ -361,6 +382,7 @@ SI_BLOCK = rf"""<style>{BASE_CSS}</style>
 <td>{{{{ it.qty }}}}</td>
 <td>{{{{ it.uom or it.stock_uom or "" }}}}</td>
 <td>{{{{ frappe.utils.fmt_money(it.price_list_rate or 0, currency=doc.currency) }}}}</td>
+<td>{{{{ it.discount_percentage or 0 }}}}%</td>
 <td>{{{{ frappe.utils.fmt_money(it.discount_amount or 0, currency=doc.currency) }}}}</td>
 <td>{{{{ frappe.utils.fmt_money(it.rate or 0, currency=doc.currency) }}}}</td>
 <td>{{{{ frappe.utils.fmt_money(it.net_amount or it.amount or 0, currency=doc.currency) }}}}</td>
@@ -369,13 +391,34 @@ SI_BLOCK = rf"""<style>{BASE_CSS}</style>
 {{% endfor %}}
 </tbody>
 </table>
+{{% if doc.taxes %}}
+<div class="lfa-section-h">جدول الضرائب والرسوم</div>
+<table class="lfa-table">
+<thead><tr><th>#</th><th>نوع الرسم</th><th>الحساب</th><th>الوصف</th><th>المعدل %</th><th>المبلغ</th><th>الإجمالي التراكمي</th></tr></thead>
+<tbody>
+{{% for tx in doc.taxes %}}
+<tr>
+<td>{{{{ loop.index }}}}</td>
+<td>{{{{ tx.charge_type or "" }}}}</td>
+<td style="font-size:9px;">{{{{ tx.account_head or "" }}}}</td>
+<td style="font-size:9px;">{{{{ tx.description or "" }}}}</td>
+<td>{{{{ tx.rate or 0 }}}}</td>
+<td>{{{{ frappe.utils.fmt_money(tx.tax_amount or 0, currency=doc.currency) }}}}</td>
+<td>{{{{ frappe.utils.fmt_money(tx.total or 0, currency=doc.currency) }}}}</td>
+</tr>
+{{% endfor %}}
+</tbody>
+</table>
+{{% endif %}}
 <table class="lfa-totals">
-<tr><td>إجمالي الكميات / المجموع</td><td>{{{{ frappe.utils.fmt_money(doc.total or 0, currency=doc.currency) }}}}</td></tr>
-<tr><td>مجموع الخصومات</td><td>{{{{ frappe.utils.fmt_money(doc.discount_amount or 0, currency=doc.currency) }}}}</td></tr>
-<tr><td>المجموع</td><td>{{{{ frappe.utils.fmt_money(doc.net_total or 0, currency=doc.currency) }}}}</td></tr>
+<tr><td>مجموع البنود</td><td>{{{{ frappe.utils.fmt_money(doc.total or 0, currency=doc.currency) }}}}</td></tr>
+<tr><td>خصم على الفاتورة</td><td>{{{{ frappe.utils.fmt_money(doc.discount_amount or 0, currency=doc.currency) }}}}</td></tr>
+<tr><td>الصافي قبل الضريبة</td><td>{{{{ frappe.utils.fmt_money(doc.net_total or 0, currency=doc.currency) }}}}</td></tr>
+<tr><td>إجمالي الضرائب والرسوم</td><td>{{{{ frappe.utils.fmt_money(doc.total_taxes_and_charges or 0, currency=doc.currency) }}}}</td></tr>
 <tr><td>الإجمالي الكلي</td><td>{{{{ frappe.utils.fmt_money(doc.grand_total or 0, currency=doc.currency) }}}}</td></tr>
 {{% if doc.rounding_adjustment %}}<tr><td>تعديل التقريب</td><td>{{{{ frappe.utils.fmt_money(doc.rounding_adjustment or 0, currency=doc.currency) }}}}</td></tr>{{% endif %}}
 {{% if doc.rounded_total %}}<tr><td>المستحق بعد التقريب</td><td>{{{{ frappe.utils.fmt_money(doc.rounded_total or 0, currency=doc.currency) }}}}</td></tr>{{% endif %}}
+<tr><td>المبلغ المستحق (غير المسدد)</td><td>{{{{ frappe.utils.fmt_money(doc.outstanding_amount or 0, currency=doc.currency) }}}}</td></tr>
 </table>
 {{% if doc.in_words %}}<div style="margin-top:12px;font-style:italic;font-size:11px;border-top:1px solid #e2e8f0;padding-top:8px;"><b>المبلغ كتابة:</b> {{{{ doc.in_words }}}}</div>{{% endif %}}
 {LETTERFOOTER}
@@ -385,25 +428,33 @@ SI_BLOCK = rf"""<style>{BASE_CSS}</style>
 PE_BLOCK = rf"""<style>{BASE_CSS}</style>
 <div class="lfa-print rtl">
 <div class="lfa-letterhead">{LETTERHEAD}</div>
-<div class="lfa-file-ref" style="margin-bottom:10px;">سند الدفع: {{{{ doc.name }}}}</div>
+<div class="lfa-file-ref" style="margin-bottom:10px;">سند القبض / الدفع: {{{{ doc.name }}}}</div>
 <div class="lfa-doc-title" style="margin-bottom:4px;">__PE_TITLE__</div>
 <div class="lfa-pe-hero" style="margin-top:8px;">
 <div class="lfa-pe-card">
-<div class="lfa-pe-lbl">المبلغ المدفوع</div>
+<div class="lfa-pe-lbl">المبلغ المدفوع (مدفوع)</div>
 <div class="lfa-pe-amt">{{{{ frappe.utils.fmt_money(doc.paid_amount or 0, currency=doc.paid_from_account_currency or doc.company_currency) }}}}</div>
+</div>
+<div class="lfa-pe-card">
+<div class="lfa-pe-lbl">المبلغ المستلم</div>
+<div class="lfa-pe-amt">{{{{ frappe.utils.fmt_money(doc.received_amount or 0, currency=doc.paid_to_account_currency or doc.company_currency) }}}}</div>
 </div>
 </div>
 <div class="lfa-section-h">بيانات السند</div>
 <div class="lfa-meta-grid">
+<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>نوع السند</b><br/>{{{{ doc.payment_type or "—" }}}}</div><div class="lfa-meta-cell"><b>حالة المستند</b><br/>{{% if doc.docstatus == 0 %}}مسودة{{% elif doc.docstatus == 1 %}}مرحّل{{% else %}}ملغى{{% endif %}}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>تاريخ الترحيل</b><br/>{{{{ frappe.utils.formatdate(doc.posting_date) }}}}</div><div class="lfa-meta-cell"><b>طريقة الدفع</b><br/>{{{{ doc.mode_of_payment or "—" }}}}</div></div>
-<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>الشركة</b><br/>{{{{ doc.company or "—" }}}}</div><div class="lfa-meta-cell"><b>العملة الشركة</b><br/>{{{{ doc.company_currency or "—" }}}}</div></div>
+<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>الشركة</b><br/>{{{{ doc.company or "—" }}}}</div><div class="lfa-meta-cell"><b>عملة الشركة</b><br/>{{{{ doc.company_currency or "—" }}}}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>مرجع الدفع</b><br/>{{{{ doc.reference_no or "—" }}}}</div><div class="lfa-meta-cell"><b>تاريخ المرجع</b><br/>{{{{ frappe.utils.formatdate(doc.reference_date) if doc.reference_date else "—" }}}}</div></div>
 {{% if doc.clearance_date %}}<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>تاريخ التسوية</b><br/>{{{{ frappe.utils.formatdate(doc.clearance_date) }}}}</div><div class="lfa-meta-cell"><b>البنك</b><br/>{{{{ doc.bank or "—" }}}}</div></div>{{% endif %}}
 {{% if doc.bank_account_no %}}<div class="lfa-meta-row"><div class="lfa-meta-full"><b>رقم الحساب البنكي</b><br/>{{{{ doc.bank_account_no }}}}</div></div>{{% endif %}}
 </div>
 <div class="lfa-section-h">الطرف والحسابات</div>
 <div class="lfa-meta-grid">
-<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>العميل</b><br/>{{{{ doc.party_name or doc.party or "—" }}}}</div><div class="lfa-meta-cell"><b>رقم الجوال</b><br/>{{{{ doc.contact_mobile or "—" }}}}</div></div>
+<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>نوع الطرف</b><br/>{{{{ doc.party_type or "—" }}}}</div><div class="lfa-meta-cell"><b>الطرف</b><br/>{{{{ doc.party_name or doc.party or "—" }}}}</div></div>
+<div class="lfa-meta-row"><div class="lfa-meta-full"><b>مدفوع من (حساب)</b><br/>{{{{ doc.paid_from or "" }}}} — {{{{ frappe.db.get_value("Account", doc.paid_from, "account_name") or "" }}}}</div></div>
+<div class="lfa-meta-row"><div class="lfa-meta-full"><b>مدفوع إلى (حساب)</b><br/>{{{{ doc.paid_to or "" }}}} — {{{{ frappe.db.get_value("Account", doc.paid_to, "account_name") or "" }}}}</div></div>
+<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>رقم الجوال</b><br/>{{{{ doc.contact_mobile or "—" }}}}</div><div class="lfa-meta-cell"><b>الإيميل</b><br/>{{{{ doc.contact_email or "—" }}}}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-full"><b>المشروع / مركز التكلفة</b><br/>{{{{ doc.project or "—" }}}} — {{{{ doc.cost_center or "—" }}}}</div></div>
 </div>
 {{% if doc.title %}}<div class="lfa-meta-grid" style="margin-top:8px;"><div class="lfa-meta-row"><div class="lfa-meta-full"><b>البيان / العنوان</b><br/>{{{{ doc.title }}}}</div></div></div>{{% endif %}}
@@ -412,14 +463,31 @@ PE_BLOCK = rf"""<style>{BASE_CSS}</style>
 {{% if doc.references %}}
 <div class="lfa-pe-refs-title">تخصيص على الفواتير والمستندات</div>
 <table class="lfa-table">
-<thead><tr><th style="width:36px;">#</th><th>نوع المستند</th><th>رقم المستند</th><th>المبلغ</th></tr></thead>
+<thead><tr><th style="width:36px;">#</th><th>نوع المستند</th><th>رقم المستند</th><th>إجمالي الفاتورة</th><th>المبلغ المخصص</th></tr></thead>
 <tbody>
 {{% for r in doc.references %}}
 <tr>
 <td>{{{{ loop.index }}}}</td>
 <td>{{{{ r.reference_doctype or "" }}}}</td>
 <td>{{{{ r.reference_name or "" }}}}</td>
+<td>{{{{ frappe.utils.fmt_money(r.total_amount or 0, currency=doc.company_currency) }}}}</td>
 <td style="font-weight:600;">{{{{ frappe.utils.fmt_money(r.allocated_amount or 0, currency=doc.company_currency) }}}}</td>
+</tr>
+{{% endfor %}}
+</tbody>
+</table>
+{{% endif %}}
+{{% if doc.deductions %}}
+<div class="lfa-pe-refs-title">الخصومات</div>
+<table class="lfa-table">
+<thead><tr><th>#</th><th>الحساب</th><th>المبلغ</th><th>الوصف</th></tr></thead>
+<tbody>
+{{% for d in doc.deductions %}}
+<tr>
+<td>{{{{ loop.index }}}}</td>
+<td>{{{{ d.account or "" }}}}</td>
+<td>{{{{ frappe.utils.fmt_money(d.amount or 0, currency=doc.company_currency) }}}}</td>
+<td>{{{{ d.description or "" }}}}</td>
 </tr>
 {{% endfor %}}
 </tbody>
@@ -468,6 +536,7 @@ def pf_record(
         row["doc_type"] = doc_type
     if report:
         row["report"] = report
+        row["custom_format"] = 0
     return row
 
 
@@ -495,7 +564,7 @@ def main():
         ),
         pf_record(
             "Sales Invoice - فاتورة رسوم دعوى",
-            SI_BLOCK.replace("__SI_TITLE__", "فاتورة رسوم دعوى"),
+            SI_BLOCK.replace("__SI_TITLE__", "فاتورة رسوم دعوة"),
             doc_type="Sales Invoice",
         ),
         pf_record(
@@ -505,13 +574,27 @@ def main():
         ),
         pf_record(
             "Payment Entry - استلام مبلغ عن فاتورة رسوم دعوى",
-            PE_BLOCK.replace("__PE_TITLE__", "سند قبض / دفع — رسوم دعوى"),
+            PE_BLOCK.replace("__PE_TITLE__", "استلام مبلغ عن فاتورة رسوم دعوى"),
             doc_type="Payment Entry",
         ),
         pf_record(
             "Payment Entry - استلام مبلغ عن فاتورة اتعاب",
-            PE_BLOCK.replace("__PE_TITLE__", "سند قبض / دفع — اتعاب"),
+            PE_BLOCK.replace("__PE_TITLE__", "استلام مبلغ عن فاتورة اتعاب"),
             doc_type="Payment Entry",
+        ),
+        pf_record(
+            "Case Sessions Report Print",
+            report_grid_html(),
+            print_format_for="Report",
+            report="Case Sessions Report",
+            print_format_type="JS",
+        ),
+        pf_record(
+            "Case History Report Print",
+            report_grid_html(),
+            print_format_for="Report",
+            report="Case History Report",
+            print_format_type="JS",
         ),
     ]
     path = HERE / "print_format.json"

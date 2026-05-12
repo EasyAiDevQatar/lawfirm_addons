@@ -9,7 +9,7 @@ Service Abbr,اختصار الخدمة
 Case Year,سنة القضية
 Case No,رقم القضية
 Service,الخدمة
-Customer Name,اسم الموكل
+Customer Name,اسم العميل
 Contact No,رقم الاتصال
 Petitioner,المدعي
 Respondent,المدعى عليه
@@ -78,8 +78,8 @@ Litigation Degree,درجة التقاضي
 Case Number,رقم القضية
 Chamber,الدائرة
 Case Subject,موضوع القضية
-Client,الموكل
-Client Capacity,صفة الموكل
+Client,العميل
+Client Capacity,صفة العميل
 Opponent,الخصم
 Opponent Capacity,صفة الخصم
 Previous Decision,القرار السابق
@@ -96,7 +96,7 @@ View Attachments,عرض المرفقات
 Actions,إجراءات
 Case Sessions Report,تقرير جدول الجلسات
 File Number,رقم الملف
-Case History Report,تقرير جدول الجلسات
+Case History Report,تقرير السجل التاريخي للجلسات
 From Date (Next Session),من تاريخ (الجلسة القادمة)
 To Date (Next Session),إلى تاريخ (الجلسة القادمة)
 From Date (Session Date),من تاريخ (تاريخ الجلسة)
@@ -118,5 +118,6 @@ Visit Date,تاريخ الزيارة
 Visit Summary,مخلص الزيارة
 Visit Duration,مدة الزيارة
 Attachment,مرفق
-Client,العميل
+Additional attachments,مرفقات إضافية
+Case Session Attachment,مرفق الجلسة
 Hearing tomorrow — Case {0},جلسة غداً — القضية {0}

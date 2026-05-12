@@ -15,6 +15,8 @@ fixtures = [
 				[
 					"Case Sessions Print",
 					"Case History Print",
+					"Case Sessions Report Print",
+					"Case History Report Print",
 					"Sales Invoice - فاتورة رسوم دعوى",
 					"Sales Invoice - فاتورة اتعاب",
 					"Payment Entry - استلام مبلغ عن فاتورة رسوم دعوى",
