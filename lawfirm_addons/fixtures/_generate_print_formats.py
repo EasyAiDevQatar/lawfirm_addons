@@ -293,7 +293,33 @@ class="text-right"
 {% if (row.is_total_row && col._index == 0) { %}
 {{ __("Total") }}
 {% } else { %}
-{{ col.formatter ? col.formatter(row._index, col._index, value, col, format_data, true) : col.format ? col.format(value, row, col, format_data) : col.docfield ? frappe.format(value, col.docfield) : value }}
+{%
+var display = col.formatter
+	? col.formatter(row._index, col._index, value, col, format_data, true)
+	: col.format
+		? col.format(value, row, col, format_data)
+		: col.docfield
+			? frappe.format(value, col.docfield)
+			: value;
+if (display !== null && display !== undefined && display !== "") {
+	if (frappe.model.is_numeric_field(col.fieldtype)) {
+		var n = flt(String(display).replace(/,/g, ""));
+		if (n === 0) {
+			display = "";
+		} else if (col.fieldtype !== "Int") {
+			var precision = col.precision != null ? col.precision : cint(frappe.defaults.get_default("float_precision", 2));
+			if (col.fieldtype === "Currency") {
+				precision = col.precision != null ? col.precision : cint(frappe.defaults.get_default("currency_precision", 2));
+			}
+			if (Math.floor(Math.abs(n)) === Math.abs(n)) {
+				precision = 0;
+			}
+			display = format_number(n, precision, col.fieldtype);
+		}
+	}
+}
+%}
+{{ display }}
 {% } %}
 </span>
 </td>
