@@ -230,7 +230,7 @@ def case_html(title: str, loop: str, include_next_col: bool, table_heading: str 
       <td style="font-size:9px;">{{{{ row.decision or "" }}}}</td>
       <td style="font-size:9px;">{{{{ row.defense_summary or "" }}}}</td>
       <td>{{{{ row.tokeel_no or "" }}}}</td>
-      <td>{{% if row.attachments or row.session_attachments %}}✓{{% else %}}—{{% endif %}}</td>
+      <td>{{% if row.attachments or row.additional_attachments %}}✓{{% else %}}—{{% endif %}}</td>
       <td>{{% if row.tokeel_image %}}✓{{% else %}}—{{% endif %}}</td>
       <td>{{{{ row.agent or "" }}}}</td>{next_td}
     </tr>

@@ -74,11 +74,7 @@ def execute(filters=None):
 			cs.tokeel_no,
 			CASE
 				WHEN (cs.attachments IS NOT NULL AND cs.attachments != '')
-					OR EXISTS (
-						SELECT 1 FROM `tabCase Session Attachment` csa
-						WHERE csa.parent = cs.name AND csa.parenttype = 'Case Sessions'
-							AND csa.parentfield = 'session_attachments' AND IFNULL(csa.`file`, '') != ''
-					)
+					OR (cs.additional_attachments IS NOT NULL AND cs.additional_attachments != '')
 				THEN '✓' ELSE '' END AS has_attach,
 			CASE WHEN cs.tokeel_image IS NOT NULL AND cs.tokeel_image != '' THEN '✓' ELSE '' END AS has_tokeel_img,
 			cs.agent,
