@@ -1,23 +1,4 @@
 frappe.query_reports["Case History Report"] = {
-	formatter: function (value, row, column, data, default_formatter) {
-		let out = default_formatter(value, row, column, data);
-		if (out === null || out === undefined || out === "") {
-			return out;
-		}
-		if (frappe.model.is_numeric_field(column.fieldtype)) {
-			const num = flt(String(out).replace(/,/g, ""));
-			if (num === 0) {
-				return "";
-			}
-			if (
-				["Currency", "Float", "Percent"].includes(column.fieldtype) &&
-				Math.floor(Math.abs(num)) === Math.abs(num)
-			) {
-				return format_number(num, 0, column.fieldtype);
-			}
-		}
-		return out;
-	},
 	filters: [
 		{
 			fieldname: "customer_name",
