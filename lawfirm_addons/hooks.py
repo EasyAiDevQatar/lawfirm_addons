@@ -48,7 +48,7 @@ fixtures = [
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/lawfirm_addons/css/lawfirm_addons.css"
-# app_include_js = "/assets/lawfirm_addons/js/lawfirm_addons.js"
+app_include_js = "/assets/lawfirm_addons/js/report_print_patches.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/lawfirm_addons/css/lawfirm_addons.css"
