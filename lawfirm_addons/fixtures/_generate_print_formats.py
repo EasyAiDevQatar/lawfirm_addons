@@ -348,7 +348,7 @@ SI_BLOCK = rf"""<style>{BASE_CSS}</style>
 <div class="lfa-section-h">العميل والفوترة</div>
 <div class="lfa-meta-grid">
 <div class="lfa-meta-row"><div class="lfa-meta-full"><b>اسم العميل</b><br/>{{{{ doc.customer_name or doc.customer }}}}</div></div>
-<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>كود العميل</b><br/>{{{{ doc.customer or "—" }}}}</div><div class="lfa-meta-cell"><b>الرقم الضريبي</b><br/>{{{{ doc.tax_id or "—" }}}}</div></div>
+<div class="lfa-meta-row"><div class="lfa-meta-full"><b>كود العميل</b><br/>{{{{ doc.customer or "—" }}}}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>الشركة</b><br/>{{{{ doc.company }}}}</div><div class="lfa-meta-cell"><b>العملة</b><br/>{{{{ doc.currency or "—" }}}}</div></div>
 <div class="lfa-meta-row"><div class="lfa-meta-cell"><b>رقم الهاتف</b><br/>{{{{ doc.contact_mobile or "—" }}}}</div><div class="lfa-meta-cell"><b>الإيميل</b><br/>{{{{ doc.contact_email or "—" }}}}</div></div>
 {{% if doc.matter %}}<div class="lfa-meta-row"><div class="lfa-meta-cell"><b>المادة Matter</b><br/>{{{{ doc.matter }}}}</div><div class="lfa-meta-cell"><b>المشروع / مركز التكلفة</b><br/>{{{{ doc.project or "—" }}}} — {{{{ doc.cost_center or "—" }}}}</div></div>{{% endif %}}
@@ -367,7 +367,6 @@ SI_BLOCK = rf"""<style>{BASE_CSS}</style>
 <div class="lfa-section-h">عنوان الشركة على الفاتورة</div>
 <div class="lfa-meta-grid"><div class="lfa-meta-row"><div class="lfa-meta-full">{{{{ doc.company_address_display | safe }}}}</div></div></div>
 {{% endif %}}
-{{% if doc.taxes_and_charges %}}<div class="lfa-meta-grid" style="margin-top:6px;"><div class="lfa-meta-row"><div class="lfa-meta-full"><b>قالب الضريبة والرسوم:</b> {{{{ doc.taxes_and_charges }}}}</div></div></div>{{% endif %}}
 {{% if doc.terms %}}<div class="lfa-section-h">الشروط والأحكام</div><div class="lfa-prayer" style="white-space:normal;">{{{{ doc.terms | striptags }}}}</div>{{% endif %}}
 <div class="lfa-section-h">بنود الفاتورة</div>
 <table class="lfa-table">
@@ -391,30 +390,9 @@ SI_BLOCK = rf"""<style>{BASE_CSS}</style>
 {{% endfor %}}
 </tbody>
 </table>
-{{% if doc.taxes %}}
-<div class="lfa-section-h">جدول الضرائب والرسوم</div>
-<table class="lfa-table">
-<thead><tr><th>#</th><th>نوع الرسم</th><th>الحساب</th><th>الوصف</th><th>المعدل %</th><th>المبلغ</th><th>الإجمالي التراكمي</th></tr></thead>
-<tbody>
-{{% for tx in doc.taxes %}}
-<tr>
-<td>{{{{ loop.index }}}}</td>
-<td>{{{{ tx.charge_type or "" }}}}</td>
-<td style="font-size:9px;">{{{{ tx.account_head or "" }}}}</td>
-<td style="font-size:9px;">{{{{ tx.description or "" }}}}</td>
-<td>{{{{ tx.rate or 0 }}}}</td>
-<td>{{{{ frappe.utils.fmt_money(tx.tax_amount or 0, currency=doc.currency) }}}}</td>
-<td>{{{{ frappe.utils.fmt_money(tx.total or 0, currency=doc.currency) }}}}</td>
-</tr>
-{{% endfor %}}
-</tbody>
-</table>
-{{% endif %}}
 <table class="lfa-totals">
 <tr><td>مجموع البنود</td><td>{{{{ frappe.utils.fmt_money(doc.total or 0, currency=doc.currency) }}}}</td></tr>
 <tr><td>خصم على الفاتورة</td><td>{{{{ frappe.utils.fmt_money(doc.discount_amount or 0, currency=doc.currency) }}}}</td></tr>
-<tr><td>الصافي قبل الضريبة</td><td>{{{{ frappe.utils.fmt_money(doc.net_total or 0, currency=doc.currency) }}}}</td></tr>
-<tr><td>إجمالي الضرائب والرسوم</td><td>{{{{ frappe.utils.fmt_money(doc.total_taxes_and_charges or 0, currency=doc.currency) }}}}</td></tr>
 <tr><td>الإجمالي الكلي</td><td>{{{{ frappe.utils.fmt_money(doc.grand_total or 0, currency=doc.currency) }}}}</td></tr>
 {{% if doc.rounding_adjustment %}}<tr><td>تعديل التقريب</td><td>{{{{ frappe.utils.fmt_money(doc.rounding_adjustment or 0, currency=doc.currency) }}}}</td></tr>{{% endif %}}
 {{% if doc.rounded_total %}}<tr><td>المستحق بعد التقريب</td><td>{{{{ frappe.utils.fmt_money(doc.rounded_total or 0, currency=doc.currency) }}}}</td></tr>{{% endif %}}
