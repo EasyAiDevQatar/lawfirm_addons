@@ -17,6 +17,7 @@ fixtures = [
 					"Case History Print",
 					"Case Sessions Report Print",
 					"Case History Report Print",
+					"Blacklisted Customer Report Print",
 					"Sales Invoice - فاتورة رسوم دعوى",
 					"Sales Invoice - فاتورة اتعاب",
 					"Payment Entry - استلام مبلغ عن فاتورة رسوم دعوى",
@@ -48,7 +49,10 @@ fixtures = [
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/lawfirm_addons/css/lawfirm_addons.css"
-app_include_js = "/assets/lawfirm_addons/js/report_print_patches.js"
+app_include_js = [
+	"/assets/lawfirm_addons/js/lfa_print.js",
+	"/assets/lawfirm_addons/js/report_print_patches.js",
+]
 
 # include js, css files in header of web template
 # web_include_css = "/assets/lawfirm_addons/css/lawfirm_addons.css"
@@ -65,7 +69,11 @@ app_include_js = "/assets/lawfirm_addons/js/report_print_patches.js"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Case" : "public/js/doctype/case.js"}
+doctype_js = {
+	"Case": "public/js/doctype/case.js",
+	"Sales Invoice": "public/js/doctype/sales_invoice.js",
+	"Payment Entry": "public/js/doctype/payment_entry.js",
+}
 doctype_list_js = {"Case" : "public/js/doctype/case_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}

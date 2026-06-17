@@ -315,9 +315,13 @@ def report_grid_html() -> str:
 
 
 def write_report_print_templates() -> None:
-    """Write case_sessions_report.html & case_history_report.html next to each report (Frappe loads as html_format)."""
+    """Write report *.html next to each report (Frappe loads as html_format)."""
     html = report_grid_html()
-    for name in ("case_sessions_report", "case_history_report"):
+    for name in (
+        "case_sessions_report",
+        "case_history_report",
+        "blacklisted_customer_report",
+    ):
         folder = REPORT_PACKAGE / name
         folder.mkdir(parents=True, exist_ok=True)
         path = folder / f"{name}.html"
@@ -575,6 +579,14 @@ def main():
             report_grid_html(),
             print_format_for="Report",
             report="Case History Report",
+            print_format_type="JS",
+        ),
+        pf_record(
+            "Blacklisted Customer Report Print",
+            report_grid_html(),
+            print_format_for="Report",
+            report="Blacklisted Customer Report",
+            doc_type="Blacklisted Customer Name",
             print_format_type="JS",
         ),
     ]

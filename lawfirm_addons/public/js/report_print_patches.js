@@ -4,7 +4,11 @@
 	}
 	frappe.__lfa_report_print_patches = true;
 
-	const LFA_CASE_REPORTS = ["Case History Report", "Case Sessions Report"];
+	const LFA_CASE_REPORTS = [
+		"Case History Report",
+		"Case Sessions Report",
+		"Blacklisted Customer Report",
+	];
 
 	function lfa_is_case_report(query_report) {
 		return !!(query_report && LFA_CASE_REPORTS.includes(query_report.report_name));

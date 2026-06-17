@@ -50,6 +50,7 @@ frappe.ui.form.Attachments = class Attachments {
 		}
 		this.parent.toggle(true);
 		this.parent.find(".attachment-row").remove();
+		this.parent.find(".lfa-printable-row").remove();
 
 		var max_reached = this.max_reached();
 		this.add_attachment_wrapper.find(".add-attachment-btn").toggle(!max_reached);
@@ -58,6 +59,10 @@ frappe.ui.form.Attachments = class Attachments {
 		var attachments = this.get_attachments();
 		this.render_attachments(attachments);
 		this.setup_show_all_button(attachments);
+
+		if (this.frm.doctype === "Case" && this.frm.docname) {
+			this.render_case_printable_documents();
+		}
 	}
 
 	setup_show_all_button(attachments) {
@@ -295,6 +300,50 @@ frappe.ui.form.Attachments = class Attachments {
 			if (form_attachments[i]["name"] === attachment.name) return;
 		}
 		form_attachments.push(attachment);
+	}
+
+	render_case_printable_documents() {
+		const me = this;
+		const cache_key = `lfa_printables_${this.frm.docname}`;
+
+		frappe.call({
+			method: "lawfirm_addons.lawfirm_addons.api.case_printables.get_case_printable_documents",
+			args: { case_name: this.frm.docname },
+			callback(r) {
+				if (!r.message || !r.message.documents) return;
+				me.frm.__lfa_printable_documents = r.message.documents;
+				me.parent.find(".lfa-printable-row").remove();
+				r.message.documents.forEach((doc) => me.add_printable_document_row(doc));
+				if (r.message.documents.length) {
+					me.attachments_label.addClass("has-attachments");
+				}
+			},
+		});
+	}
+
+	add_printable_document_row(doc) {
+		const label = frappe.utils.escape_html(doc.label || "");
+		const subtitle = frappe.utils.escape_html(doc.subtitle || "");
+		const print_url = doc.print_url || "";
+		const file_label = `
+			<a href="${print_url}" target="_blank" rel="noopener" title="${label}"
+				class="ellipsis attachment-link lfa-printable-link" style="max-width: calc(100% - 43px);"
+			>
+				<span>${label}</span>
+				${subtitle ? `<small class="text-muted" style="display:block;">${subtitle}</small>` : ""}
+			</a>`;
+
+		const icon = `<span title="${__("Print")}">${frappe.utils.icon("printer", "sm ml-0")}</span>`;
+
+		const $row = $(`<li class="attachment-row lfa-printable-row">`)
+			.append(frappe.get_data_pill(file_label, doc.name || doc.report_name, null, icon))
+			.insertAfter(this.add_attachment_wrapper);
+
+		$row.find(".lfa-printable-link").on("click", function (e) {
+			e.preventDefault();
+			lawfirm_addons.print.open_pdf(print_url);
+			return false;
+		});
 	}
 	remove_fileid(fileid) {
 		var attachments = this.get_attachments();
